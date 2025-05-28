@@ -221,7 +221,34 @@
         .modal-button:hover {
             background-color: #3182ce;
         }
-    </style>
+    
+@media (max-width: 480px) {
+    .question-text {
+        font-size: 1.1rem;
+    }
+
+    .option-button {
+        font-size: 0.95rem;
+        padding: 10px 14px;
+    }
+
+    .quiz-container {
+        padding: 20px;
+    }
+
+    .navigation-buttons {
+        flex-direction: column;
+    }
+}
+
+.option-button, .nav-button {
+    min-height: 48px;
+}
+
+body {
+    overflow-y: auto;
+}
+</style>
 </head>
 <body>
     <div class="quiz-container">
