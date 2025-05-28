@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Wawasan Nusantara</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .quiz-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .question-section {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-button {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+        .option-button:hover:not(.correct):not(.incorrect) {
+            background-color: #cbd5e0;
+        }
+        .option-button.selected {
+            border-color: #4299e1;
+            background-color: #ebf8ff;
+        }
+        .option-button.correct {
+            background-color: #d4edda;
+            color: #28a745;
+            border-color: #28a745;
+        }
+        .option-button.incorrect {
+            background-color: #f8d7da;
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+        .feedback-section {
+            margin-top: 25px;
+            text-align: left;
+            background-color: #f7fafc;
+            border-left: 5px solid #4299e1;
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: none; /* Hidden by default */
+        }
+        .feedback-section.show {
+            display: block;
+        }
+        .feedback-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2b6cb0;
+            margin-bottom: 8px;
+        }
+        .feedback-text {
+            font-size: 1rem;
+            color: #4a5568;
+        }
+        .navigation-buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .nav-button {
+            background-color: #4299e1;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            flex-grow: 1;
+            border: none;
+        }
+        .nav-button:hover {
+            background-color: #3182ce;
+        }
+        .nav-button:disabled {
+            background-color: #a0aec0;
+            cursor: not-allowed;
+        }
+        .score-section {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .quiz-header {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e2e8f0;
+            border-radius: 5px;
+            height: 10px;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #4299e1;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.4s ease-in-out;
+        }
+        .option-label {
+            margin-right: 10px;
+            font-weight: bold;
+            min-width: 20px; /* Ensure consistent spacing */
+            text-align: center;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+        }
+        .modal-close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .modal-close-button:hover,
+        .modal-close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .modal-message {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+        .modal-button {
+            background-color: #4299e1;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+        .modal-button:hover {
+            background-color: #3182ce;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 class="quiz-header">SOAL ASAS GENAP PKN VIII</h1>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="quizContent">
+            </div>
+        <div class="feedback-section" id="feedbackSection">
+            <div class="feedback-title" id="feedbackTitle"></div>
+            <div class="feedback-text" id="feedbackText"></div>
+        </div>
+        <div class="navigation-buttons" id="navigationButtons">
+            <button class="nav-button" id="prevButton" disabled>Sebelumnya</button>
+            <button class="nav-button" id="nextButton">Selanjutnya</button>
+        </div>
+        <div class="score-section" id="scoreSection" style="display: none;">
+            Skor Anda: <span id="currentScore">0</span> / <span id="totalQuestions">0</span>
+        </div>
+    </div>
+
+    <div id="customModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-button" id="modalCloseButton">&times;</span>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <p class="modal-message" id="modalMessage"></p>
+            <button class="modal-button" id="modalOkButton">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Array of quiz questions
+        const quizQuestions = [
+            {
+                type: "multiple-choice",
+                question: "Konsep \"diri\" dalam Wawasan Nusantara dipahami sebagai...",
+                options: {
+                    A: "Individu dengan identitas kebangsaan.",
+                    B: "Warga negara dengan kewajiban negaranya.",
+                    C: "Identitas kebangsaan yang beragam kebudayaan.",
+                    D: "Pribadi yang terikat oleh nilai-nilai nasional."
+                },
+                correctAnswer: "C",
+                explanation: "Konsep 'diri' menunjukkan bahwa kita sebagai bangsa Indonesia memiliki identitas kebangsaan yang beragam budaya. Ini menggambarkan siapa kita di tengah masyarakat Indonesia yang majemuk."
+            },
+            {
+                type: "multiple-choice",
+                question: "Konsep \"lingkungan\" dalam Wawasan Nusantara diartikan sebagai...",
+                options: {
+                    A: "Geografis Indonesia sebagai negara kepulauan",
+                    B: "Wilayah tempat tinggal",
+                    C: "Semua daerah di wilayah negara",
+                    D: "Kawasan yang berpengaruh terhadap budaya."
+                },
+                correctAnswer: "A",
+                explanation: "Lingkungan dalam Wawasan Nusantara dilihat dari kondisi geografis Indonesia sebagai negara kepulauan. Letak wilayah sangat memengaruhi cara pandang bangsa Indonesia."
+            },
+            {
+                type: "multiple-choice",
+                question: "Mengapa Wawasan Nusantara harus didasarkan pada Pancasila dan UUD NRI 1945?",
+                options: {
+                    A: "Mengarahkan pembangunan budaya nasional",
+                    B: "Memperkuat kerja sama antarwilayah",
+                    C: "Mendukung untuk ketahanan nasional.",
+                    D: "Selaras dengan kebangsaan dan persatuan."
+                },
+                correctAnswer: "D",
+                explanation: "Wawasan Nusantara harus berdasarkan Pancasila dan UUD 1945 agar sesuai dengan jati diri bangsa. Ini menjaga agar cara pandang bangsa tetap satu arah dan tidak bertentangan."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa arti, \"cara pandang\" dalam konteks Wawasan Nusantara?",
+                options: {
+                    A: "Pandangan menjaga identitas dan keutuhan",
+                    B: "Pandangan terhadap diri dan wilayahnya",
+                    C: "Pemahaman persatuan demi kemajuan bangsa",
+                    D: "Melihat keberagaman sebagai kekuatan"
+                },
+                correctAnswer: "B",
+                explanation: "Cara pandang berarti bagaimana kita melihat diri dan wilayah sebagai satu kesatuan. Ini penting agar tidak terjadi perpecahan antarwilayah di Indonesia."
+            },
+            {
+                type: "multiple-choice",
+                question: "Mengapa persatuan dan kesatuan penting dalam Wawasan Nusantara?",
+                options: {
+                    A: "Memperkuat integritas wilayah dan keutuhan",
+                    B: "Mendorong kerja sama antarwilayah",
+                    C: "Memupuk semangat keangsaan",
+                    D: "Bentuk solidaritas hadapi tantangan global"
+                },
+                correctAnswer: "A",
+                explanation: "Persatuan dan kesatuan membuat Indonesia tetap utuh dan tidak mudah dipecah belah. Inilah dasar kekuatan bangsa Indonesia di tengah keragaman."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa cakupan utama dalam Wawasan Nusantara?",
+                options: {
+                    A: "Pendidikan, budaya, ekonomi, dan keamanan",
+                    B: "Politik, lingkungan, budaya, dan infrastruktur",
+                    C: "Ideologi, politik, ekonomi, dan sosial budaya",
+                    D: "Ideologi, teknologi, pertahanan, dan sosial"
+                },
+                correctAnswer: "C",
+                explanation: "Wawasan Nusantara mencakup aspek ideologi, politik, ekonomi, dan sosial budaya. Semua bidang itu penting untuk menjaga keutuhan negara."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa tujuan utama konsep Wawasan Nusantara?",
+                options: {
+                    A: "Meningkatkan kesejahteraan masyarakat",
+                    B: "Mewujudkan persatuan bangsa dan kesatuan",
+                    C: "Menjaga keragaman budaya identitas nasional",
+                    D: "Memperkuat pertahanan dari ancaman luar"
+                },
+                correctAnswer: "B",
+                explanation: "Tujuan utama Wawasan Nusantara adalah menyatukan bangsa Indonesia. Dengan bersatu, bangsa ini bisa mencapai kesejahteraan dan kemajuan bersama."
+            },
+            {
+                type: "multiple-choice",
+                question: "Bagaimana Pancasila berperan dalam Wawasan Nusantara?",
+                options: {
+                    A: "Pedoman untuk mengelola sumber daya alam",
+                    B: "Dasar untuk melestarikan keragaman",
+                    C: "Acuan untuk memperkuat hubungan sesama",
+                    D: "Ideologi yang mendasari persatuan bangsa."
+                },
+                correctAnswer: "D",
+                explanation: "Pancasila adalah ideologi pemersatu bangsa. Dalam Wawasan Nusantara, Pancasila jadi dasar dalam menjaga keutuhan dan kerukunan."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa salah satu pesan pokok Pembukaan UUD NRI 1945 tentang Wawasan Nusantara?",
+                options: {
+                    A: "Tekad bangsa untuk mencapai cita-cita nasional",
+                    B: "Komitmen untuk meningkatkan kesejahteraan",
+                    C: "Upaya memajukan pendidikan dan teknologi",
+                    D: "Usaha untuk melestarikan budaya tradisional"
+                },
+                correctAnswer: "A",
+                explanation: "Pembukaan UUD 1945 menunjukkan cita-cita bangsa Indonesia. Cita-cita itu menjadi pedoman dalam membangun negara yang bersatu dan adil."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa kedudukan utama Wawasan Nusantara?",
+                options: {
+                    A: "Pedoman memajukan perekonomian nasional",
+                    B: "Strategi untuk melestarikan lingkungan",
+                    C: "Ajaran cinta tanah air dan keutuhan wilayah",
+                    D: "Acuan memperkuat hubungan diplomatik"
+                },
+                correctAnswer: "C",
+                explanation: "Wawasan Nusantara mengajarkan pentingnya cinta tanah air. Kita juga diajak untuk menjaga keutuhan wilayah Indonesia."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa fungsi Wawasan Nusantara?",
+                options: {
+                    A: "Menumbuhkan keutuhan bangsa",
+                    B: "Meningkatkan keterampilan teknologi",
+                    C: "Memajukan pendidikan nasional",
+                    D: "Mengembangkan keragaman budaya lokal"
+                },
+                correctAnswer: "A",
+                explanation: "Wawasan Nusantara membantu memperkuat keutuhan bangsa. Ini membuat masyarakat saling menghargai dan bekerja sama."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa dua dimensi utama Wawasan Nusantara?",
+                options: {
+                    A: "Ekonomi dan budaya",
+                    B: "Politik dan keamanan pertahanan",
+                    C: "Lingkungan dan pendidikan",
+                    D: "Geografis dan kehidupan sosial"
+                },
+                correctAnswer: "D",
+                explanation: "Dua dimensi utama dalam Wawasan Nusantara adalah geografis dan kehidupan sosial. Keduanya mempengaruhi cara pandang terhadap bangsa dan negara."
+            },
+            {
+                type: "multiple-choice",
+                question: "Bagaimana keragaman budaya mendukung Wawasan Nusantara?",
+                options: {
+                    A: "Meningkatkan potensi ekonomi lokal",
+                    B: "Memperkuat persatuan melalui sikap toleransi",
+                    C: "Menjamin keamanan dari ancaman pihak luar",
+                    D: "Memudahkan pengelolaan sumber daya alam"
+                },
+                correctAnswer: "B",
+                explanation: "Keragaman budaya dapat memperkuat persatuan jika disertai sikap toleransi. Toleransi mencegah konflik di tengah perbedaan."
+            },
+            {
+                type: "multiple-choice",
+                question: "Mengapa toleransi penting dalam Wawasan Nusantara?",
+                options: {
+                    A: "Mempercepat pertumbuhan ekonomi",
+                    B: "Mempererat persatuan di tengah konflik",
+                    C: "Menciptakan harmoni di tengah keragaman",
+                    D: "Menjamin keamanan wilayah"
+                },
+                correctAnswer: "C",
+                explanation: "Toleransi membuat kita hidup rukun di tengah keberagaman. Ini menciptakan harmoni dan saling menghargai antarwarga."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa peran utama deklarasi Djuanda pada Indonesia?",
+                options: {
+                    A: "Batas daratan sebagai satu kesatuan nasional",
+                    B: "Mengintegrasikan budaya antarpulau",
+                    C: "Memperkuat kedaulatan wilayah nasional",
+                    D: "Menyatakan perairan sebagai bagian NKRI"
+                },
+                correctAnswer: "D",
+                explanation: "Deklarasi Djuanda menyatakan bahwa laut di antara pulau adalah bagian dari NKRI. Ini memperkuat kedaulatan wilayah Indonesia."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa akibat tanpa Wawasan Nusantara?",
+                options: {
+                    A: "Keutuhan wilayah dan persatuan terancam",
+                    B: "Perekonomian nasional tidak merata",
+                    C: "Keragaman budaya rawan konflik",
+                    D: "Pembangunan infrastruktur terkendala"
+                },
+                correctAnswer: "A",
+                explanation: "Tanpa Wawasan Nusantara, keutuhan wilayah bisa terancam. Bangsa menjadi mudah terpecah karena tidak ada rasa persatuan."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa keunikan Indonesia menurut Wawasan Nusantara?",
+                options: {
+                    A: "Berada di antara dua benua dan dua samudera sebagai posisi strategis",
+                    B: "Memiliki keberagaman masyarakat yang bersatu dalam NKRI",
+                    C: "Terdiri dari 17.508 pulau yang membentang dari Sabang hingga Merauke",
+                    D: "Mengelola sumber daya secara berkelanjutan untuk kesejahteraan bersama"
+                },
+                correctAnswer: "C",
+                explanation: "Indonesia punya keunikan karena terdiri dari ribuan pulau. Ini menunjukkan betapa luas dan beragamnya negara kita."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa batas wilayah utara Indonesia?",
+                options: {
+                    A: "Australia, Timor Leste, dan Samudera Hindia sebagai batas selatan",
+                    B: "Malaysia, Singapura, Vietnam, Filipina, Thailand, Palau, dan Laut Cina Selatan",
+                    C: "Papua Nugini dan Samudera Pasifik sebagai batas timur Indonesia",
+                    D: "Samudera Hindia sebagai batas utama wilayah barat Indonesia"
+                },
+                correctAnswer: "B",
+                explanation: "Wilayah utara Indonesia berbatasan dengan negara-negara seperti Malaysia dan Filipina. Batas ini penting untuk menjaga wilayah negara."
+            },
+            {
+                type: "multiple-choice",
+                question: "Mengapa posisi antara dua benua dan dua samudera penting dalam Wawasan Nusantara?",
+                options: {
+                    A: "Memudahkan pembangunan infrastruktur daratan di seluruh wilayah",
+                    B: "Meningkatkan keragaman suku melalui interaksi antarwilayah",
+                    C: "Menjamin kelestarian sumber daya alam melalui posisi geografis",
+                    D: "Menjadikan Indonesia pusat perdagangan dan pelayaran yang strategis"
+                },
+                correctAnswer: "D",
+                explanation: "Letak Indonesia yang strategis membuatnya menjadi pusat perdagangan dan pelayaran. Ini menguntungkan dalam hubungan internasional."
+            },
+            {
+                type: "multiple-choice",
+                question: "Dampak positif dan negatif dari keragaman suku, agama, dan budaya dalam konteks Wawasan Nusantara?",
+                options: {
+                    A: "Positif: Memperkaya budaya, memperkuat persatuan; Negatif: Potensi konflik",
+                    B: "Positif: Meningkatkan ekonomi; Negatif: Hambat infrastruktur",
+                    C: "Positif: Jamin keamanan; Negatif: Kurangi identitas",
+                    D: "Positif: Mudahkan koordinasi; Negatif: Menghambat teknologi"
+                },
+                correctAnswer: "A",
+                explanation: "Keragaman budaya punya dampak positif dan negatif. Jika dikelola baik, bisa memperkaya budaya dan memperkuat persatuan."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa makna utama dari kesatuan politik dalam Wawasan Nusantara?",
+                options: {
+                    A: "Pemerataan pembangunan ekonomi untuk kesejahteraan masyarakat",
+                    B: "Pelestarian budaya lokal untuk mempertahankan identitas nasional",
+                    C: "Pengelolaan sumber daya alam untuk menjamin kemakmuran rakyat",
+                    D: "Kedaulatan wilayah sebagai satu kesatuan"
+                },
+                correctAnswer: "D",
+                explanation: "Kesatuan politik berarti semua wilayah berada dalam satu kedaulatan. Ini menjaga agar Indonesia tidak terpecah belah."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa contoh nyata pelaksanaan Wawasan Nusantara dalam aspek politik di lingkungan sekolah?",
+                options: {
+                    A: "Mematuhi tata tertib sekolah untuk menjaga keharmonisan lingkungan belajar",
+                    B: "Berpartisipasi dalam pemilihan ketua kelas secara demokratis",
+                    C: "Mengikuti upacara bendera untuk memperkuat rasa kebangsaan",
+                    D: "Berdiskusi dalam kelompok untuk membuat keputusan bersama kegiatan sekolah"
+                },
+                correctAnswer: "B",
+                explanation: "Contoh pelaksanaan politik di sekolah adalah ikut pemilihan ketua kelas secara demokratis. Ini melatih tanggung jawab dan kepemimpinan."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa prinsip utama dari kesatuan ekonomi dalam Wawasan Nusantara ini?",
+                options: {
+                    A: "Mengintegrasikan kegiatan ekonomi nasional demi keutuhan NKRI",
+                    B: "Memanfaatkan sumber daya alam secara bersama untuk kemakmuran rakyat",
+                    C: "Mendorong pemerataan ekonomi antarwilayah untuk persatuan nasional",
+                    D: "Pengelolaan sumber daya alam untuk menjaga kelestarian lingkungan"
+                },
+                correctAnswer: "A",
+                explanation: "Kesatuan ekonomi menghubungkan kegiatan ekonomi seluruh wilayah. Ini membantu tercapainya kesejahteraan bersama."
+            },
+            {
+                type: "multiple-choice",
+                question: "Mengapa pengelolaan SDA merupakan bagian penting dari Wawasan Nusantara?",
+                options: {
+                    A: "Menjamin kemakmuran rakyat melalui pemanfaatan SDA yang bijaksana",
+                    B: "Memastikan keberlanjutan SDA untuk kesejahteraan generasi mendatang",
+                    C: "Mendukung keutuhan NKRI dengan pengelolaan SDA yang merata",
+                    D: "Memperkuat ekonomi nasional melalui pengelolaan SDA secara terpadu"
+                },
+                correctAnswer: "C",
+                explanation: "Pengelolaan SDA penting agar hasilnya dirasakan oleh seluruh rakyat. Ini mendukung keutuhan dan keadilan sosial."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa peran utama pelajar dalam mendukung potensi ekonomi lokal?",
+                options: {
+                    A: "Mengadakan kegiatan budaya untuk melestarikan tradisi lokal daerah",
+                    B: "Memahami dan memanfaatkan potensi sumber daya alam di lingkungan sekitar",
+                    C: "Menjaga keamanan lingkungan sekolah dari potensi konflik sosial",
+                    D: "Mempelajari sejarah lokal untuk memperkuat identitas wilayah"
+                },
+                correctAnswer: "B",
+                explanation: "Pelajar bisa mendukung ekonomi lokal dengan memahami potensi daerah. Contohnya adalah memanfaatkan sumber daya alam sekitar."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa makna utama dari kesatuan sosial budaya dalam Wawasan Nusantara dalam harmoni?",
+                options: {
+                    A: "Pemerataan pembangunan ekonomi untuk kesejahteraan masyarakat lokal",
+                    B: "Penguatan keamanan wilayah laut untuk melindungi identitas nasional",
+                    C: "Pengelolaan sumber daya alam untuk menjamin kemakmuran rakyat",
+                    D: "Kehidupan masyarakat yang serasi meskipun memiliki keragaman budaya dan tradisi"
+                },
+                correctAnswer: "D",
+                explanation: "Kesatuan sosial budaya membuat masyarakat bisa hidup rukun. Meskipun berbeda budaya, tetap saling menghormati."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa contoh pelestarian budaya lokal oleh pelajar?",
+                options: {
+                    A: "Mempelajari dan mempraktikkan seni tradisional daerah seperti tari atau musik",
+                    B: "Menggunakan produk lokal untuk mendukung kegiatan sekolah",
+                    C: "Mengadakan lomba olahraga untuk meningkatkan kesehatan siswa",
+                    D: "Menanam pohon untuk mendukung kelestarian lingkungan sekolah"
+                },
+                correctAnswer: "A",
+                explanation: "Pelajar bisa melestarikan budaya dengan mempelajari seni tradisional. Contohnya seperti belajar tari daerah atau musik lokal."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa makna utama dari kesatuan pertahanan keamanan dalam Wawasan Nusantara?",
+                options: {
+                    A: "Pemerataan ekonomi untuk menjamin kesejahteraan masyarakat lokal",
+                    B: "Pelestarian budaya lokal untuk mempertahankan identitas nasional",
+                    C: "Ancaman terhadap satu daerah dianggap ancaman bagi seluruh bangsa dan negara",
+                    D: "Pengelolaan sumber daya alam untuk menjaga kelestarian lingkungan"
+                },
+                correctAnswer: "C",
+                explanation: "Kalau ada ancaman di satu daerah, seluruh bangsa harus ikut menjaga. Inilah makna kesatuan pertahanan dan keamanan."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa tindakan kontribusi pelajar dalam menjaga keamanan lingkungan sekolah?",
+                options: {
+                    A: "Melaporkan potensi konflik kepada guru atau pihak sekolah untuk ditangani",
+                    B: "Berpartisipasi dalam kegiatan piket kelas dan pengawasan lingkungan sekolah secara aktif",
+                    C: "Mengikuti aturan sekolah untuk menciptakan lingkungan yang aman",
+                    D: "Menjalin komunikasi positif dengan teman untuk mencegah kesalahpahaman"
+                },
+                correctAnswer: "B",
+                explanation: "Pelajar bisa ikut menjaga keamanan sekolah dengan piket dan peduli lingkungan. Ini menunjukkan rasa tanggung jawab bersama."
+            },
+            {
+                type: "multiple-choice",
+                question: "Mengapa pengelolaan lingkungan hidup menjadi prioritas penting dalam Wawasan Nusantara?",
+                options: {
+                    A: "Memperkuat hubungan antarsuku melalui pengelolaan sumber daya",
+                    B: "Meningkatkan keamanan wilayah laut dari ancaman pihak asing",
+                    C: "Memajukan budaya lokal melalui pemanfaatan sumber daya alam",
+                    D: "Menjaga kelestarian alam untuk kesejahteraan dan keberlanjutan hidup rakyat"
+                },
+                correctAnswer: "D",
+                explanation: "Menjaga lingkungan penting untuk masa depan yang lebih baik. Kita harus menjaga alam agar hidup tetap seimbang dan sehat."
+            },
+            {
+                type: "multiple-choice",
+                question: "Apa tindakan nyata yang dapat dilakukan pelajar dalam menjaga kelestarian lingkungan?",
+                options: {
+                    A: "Mengikuti kegiatan penanaman pohon di lingkungan sekolah",
+                    B: "Membuang sampah pada tempatnya dan mengurangi penggunaan plastik sekali pakai",
+                    C: "Mengampanyekan penghematan air dan listrik di kalangan teman",
+                    D: "Membuat poster edukasi tentang pentingnya menjaga lingkungan"
+                },
+                correctAnswer: "B",
+                explanation: "Ikut kegiatan tanam pohon adalah tindakan menjaga alam. Ini membuat lingkungan jadi lebih hijau dan sehat."
+            },
+            {
+                type: "multiple-choice",
+                question: "Salah satu akibat reklamasi tanpa kajian lingkungan, hal ini berisiko memengaruhi...",
+                options: {
+                    A: "Stabilitas politik karena meningkatnya pengangguran di sektor perikanan",
+                    B: "Semangat nasionalisme masyarakat karena menurunnya aktivitas budaya lokal",
+                    C: "Fungsi pertahanan keamanan karena berkurangnya potensi strategis wilayah laut",
+                    D: "Kualitas pendidikan karena rusaknya akses transportasi ke sekolah"
+                },
+                correctAnswer: "C",
+                explanation: "Reklamasi tanpa kajian bisa mengganggu wilayah pertahanan. Hal ini bisa membahayakan posisi strategis negara."
+            },
+            {
+                type: "multiple-choice",
+                question: "Akibat Pembangunan hanya di kota, maka ketidakseimbangan Pancagatra bisa terjadi karena...",
+                options: {
+                    A: "Melemahnya solidaritas sosial antarwilayah dalam sistem kebangsaan",
+                    B: "Terganggunya distribusi kekayaan alam sebagai bagian dari Trigatra",
+                    C: "Menurunnya populasi di daerah terpencil akibat tekanan ideologis",
+                    D: "Terhambatnya hubungan luar negeri dalam sektor perdagangan"
+                },
+                correctAnswer: "A",
+                explanation: "Kalau pembangunan hanya di kota, daerah lain bisa tertinggal. Ini bisa membuat masyarakat jadi tidak merasa adil."
+            },
+            {
+                type: "multiple-choice",
+                question: "Hubungan antara kependudukan (Trigatra) dan sosial budaya (Pancagatra) NKRI terlihat dari...",
+                options: {
+                    A: "Pemerataan penduduk untuk mendukung pembangunan budaya nasional",
+                    B: "Pengelolaan keberagaman penduduk untuk memperkuat ekonomi lokal",
+                    C: "Pendidikan kebudayaan untuk meningkatkan kesadaran nasional penduduk",
+                    D: "Pendidikan multikultural untuk memupuk toleransi di tengah keberagaman penduduk"
+                },
+                correctAnswer: "D",
+                explanation: "Pendidikan multikultural membantu kita memahami dan menghargai perbedaan. Ini penting agar masyarakat tetap rukun."
+            },
+            {
+                type: "multiple-choice",
+                question: "Dampak ketimpangan bantuan, kaitannya dengan Trigatra dan Pancagatra dapat menimbulkan...",
+                options: {
+                    A: "Kerusakan ekosistem alam",
+                    B: "Gangguan hubungan ideologi dan pertahanan",
+                    C: "Potensi konflik sosial akibat ketidakadilan",
+                    D: "Ketimpangan jumlah penduduk"
+                },
+                correctAnswer: "C",
+                explanation: "Ketimpangan bantuan bisa menimbulkan konflik sosial. Orang merasa diperlakukan tidak adil jika tidak mendapat bantuan yang sama."
+            },
+            {
+                type: "multiple-choice",
+                question: "Perilaku pelajar dukung Wawasan Nusantara di lingkungan sekolah?",
+                options: {
+                    A: "Menggunakan produk lokal sekolah",
+                    B: "Menghormati teman dengan bertutur kata sopan dan menjaga persaudaraan",
+                    C: "Mengadakan lomba olahraga",
+                    D: "Menanam pohon di lingkungan sekolah"
+                },
+                correctAnswer: "B",
+                explanation: "Menghormati teman dan menjaga sikap sopan bisa memperkuat persatuan. Ini juga menunjukkan cinta tanah air dalam lingkungan sekolah."
+            },
+            {
+                type: "multiple-choice",
+                question: "Mengapa mengamalkan nilai-nilai Pancasila dukung Wawasan Nusantara?",
+                options: {
+                    A: "Meningkatkan produktivitas ekonomi",
+                    B: "Memudahkan infrastruktur di daerah terpencil",
+                    C: "Menjamin keragaman budaya lokal",
+                    D: "Memperkuat karakter bangsa"
+                },
+                correctAnswer: "D",
+                explanation: "Mengamalkan nilai Pancasila memperkuat karakter bangsa. Ini menjadikan kita pribadi yang jujur, adil, dan bertanggung jawab."
+            },
+            {
+                type: "multiple-choice",
+                question: "Cara pelajar menyampaikan pendapat di sekolah?",
+                options: {
+                    A: "Mengomunikasikan aspirasi pihak sekolah",
+                    B: "Mengunggah keluhan di media sosial",
+                    C: "Mengadakan diskusi antarteman",
+                    D: "Melaporkan keluhan ke komunitas lokal"
+                },
+                correctAnswer: "A",
+                explanation: "Menyampaikan pendapat bisa dilakukan secara sopan dan langsung kepada guru atau sekolah. Ini lebih baik daripada mengeluh di media sosial."
+            },
+            {
+                type: "multiple-choice",
+                question: "Mencintai produk lokal penting?",
+                options: {
+                    A: "Meningkatkan keragaman budaya.",
+                    B: "Menjamin keamanan wilayah laut",
+                    C: "Memperkuat perekonomian nasional",
+                    D: "Memudahkan pelestarian lingkungan"
+                },
+                correctAnswer: "C",
+                explanation: "Mencintai produk lokal membantu perekonomian Indonesia. Ini juga menunjukkan kebanggaan pada hasil karya bangsa sendiri."
+            },
+            {
+                type: "multiple-choice",
+                question: "Komitmen pelajar mendukung Wawasan Nusantara?",
+                options: {
+                    A: "Mengikuti kursus daring untuk meningkatkan keterampilan teknologi pribadi",
+                    B: "Membentuk klub lingkungan untuk kampanye pengelolaan sampah berbasis kearifan lokal",
+                    C: "Membuat poster prestasi sekolah untuk promosi di media sosial",
+                    D: "Mengadakan kegiatan bakti sosial untuk membantu teman yang kesulitan belajar"
+                },
+                correctAnswer: "B",
+                explanation: "Pelajar bisa membentuk klub lingkungan untuk menjaga kebersihan sekolah. Ini adalah bentuk dukungan nyata terhadap Wawasan Nusantara."
+            },
+            {
+                type: "true-false",
+                question: "Wawasan Nusantara bertujuan untuk memajukan perekonomian nasional dengan memanfaatkan sumber daya alam di setiap pulau secara maksimal.",
+                correctAnswer: "Salah",
+                explanation: "Meskipun pemanfaatan sumber daya alam merupakan bagian dari pembangunan ekonomi, tujuan utama Wawasan Nusantara jauh lebih luas dan bersifat holistik, tidak hanya berfokus pada ekonomi semata. Wawasan Nusantara bertujuan untuk menjamin persatuan dan kesatuan bangsa serta keutuhan wilayah dalam berbagai aspek kehidupan (politik, ekonomi, sosial budaya, pertahanan keamanan). Pemanfaatan sumber daya alam harus dilakukan secara berkelanjutan dan merata untuk kesejahteraan seluruh rakyat, bukan hanya dimaksimalkan tanpa pertimbangan."
+            },
+            {
+                type: "true-false",
+                question: "Deklarasi Djuanda pada 13 Desember 1957 diterbitkan untuk mendukung pelestarian budaya maritim masyarakat pesisir dengan menetapkan batas wilayah berdasarkan tradisi lokal.",
+                correctAnswer: "Salah",
+                explanation: "Deklarasi Djuanda (13 Desember 1957) adalah tonggak penting dalam sejarah Indonesia yang menetapkan konsep negara kepulauan. Tujuannya adalah untuk menyatukan wilayah darat dan laut Indonesia menjadi satu kesatuan yang utuh, di mana laut di antara pulau-pulau juga merupakan bagian integral dari wilayah kedaulatan Indonesia. Deklarasi ini bukan tentang pelestarian budaya maritim atau penetapan batas wilayah berdasarkan tradisi lokal, melainkan tentang penarikan garis pangkal lurus dan penetapan lebar laut teritorial 12 mil, yang kemudian diakui secara internasional melalui Konvensi Hukum Laut Internasional (UNCLOS)."
+            },
+            {
+                type: "true-false",
+                question: "Kesatuan sosial budaya dalam Wawasan Nusantara berfokus pada penyeragaman budaya lokal di seluruh Indonesia untuk menciptakan identitas nasional yang kuat.",
+                correctAnswer: "Salah",
+                explanation: "Konsep kesatuan sosial budaya dalam Wawasan Nusantara justru menekankan pada pengakuan dan penghormatan terhadap keberagaman budaya lokal. Tujuannya bukan penyeragaman (uniformitas), melainkan integrasi dalam keberagaman (Bhinneka Tunggal Ika). Wawasan Nusantara memandang kekayaan budaya lokal sebagai kekuatan yang memperkaya identitas nasional, bukan sebagai sesuatu yang harus diseragamkan. Identitas nasional yang kuat justru terbentuk dari persatuan dalam keberagaman tersebut."
+            },
+            {
+                type: "true-false",
+                question: "Salah satu faktor dari luar dalam pelaksanaan Wawasan Nusantara adalah rendahnya tingkat pendidikan masyarakat, yang menyebabkan sulitnya memahami pentingnya persatuan bangsa.",
+                correctAnswer: "Salah",
+                explanation: "Rendahnya tingkat pendidikan masyarakat adalah faktor internal, bukan faktor dari luar (eksternal). Faktor internal merujuk pada kondisi atau masalah yang berasal dari dalam negara atau masyarakat itu sendiri. Faktor dari luar (eksternal) akan merujuk pada pengaruh dari negara lain, globalisasi, perkembangan teknologi, atau isu-isu internasional."
+            },
+            {
+                type: "true-false",
+                question: "Perilaku mendukung Wawasan Nusantara di lingkungan sekolah dapat dilakukan misalnya dengan mematuhi tata tertib sekolah, karena ini sudah bisa dikatakan mencerminkan sikap cinta tanah air.",
+                correctAnswer: "Benar",
+                explanation: "Mematuhi tata tertib sekolah adalah bentuk disiplin dan tanggung jawab sebagai warga negara yang baik. Disiplin dan tanggung jawab merupakan nilai-nilai dasar yang mendukung terciptanya ketertiban dan keteraturan, yang pada gilirannya akan berkontribusi pada stabilitas dan kemajuan bangsa. Kepatuhan terhadap aturan, sekecil apa pun, menunjukkan sikap peduli terhadap lingkungan sekitar dan kesediaan untuk berkontribusi pada kebaikan bersama, yang merupakan bagian dari cinta tanah air dalam skala mikro. Ini merupakan implementasi nilai-nilai Wawasan Nusantara dalam kehidupan sehari-hari."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = new Array(quizQuestions.length).fill(null); // To store user's selected answer for each question
+
+        const quizContent = document.getElementById('quizContent');
+        const feedbackSection = document.getElementById('feedbackSection');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackText = document.getElementById('feedbackText');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const scoreSection = document.getElementById('scoreSection');
+        const currentScoreSpan = document.getElementById('currentScore');
+        const totalQuestionsSpan = document.getElementById('totalQuestions');
+        const progressBar = document.getElementById('progressBar');
+
+        // Modal elements
+        const customModal = document.getElementById('customModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalCloseButton = document.getElementById('modalCloseButton');
+        const modalOkButton = document.getElementById('modalOkButton');
+
+        function showModal(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            customModal.style.display = 'flex';
+        }
+
+        function hideModal() {
+            customModal.style.display = 'none';
+        }
+
+        modalCloseButton.onclick = hideModal;
+        modalOkButton.onclick = hideModal;
+        window.onclick = function(event) {
+            if (event.target == customModal) {
+                hideModal();
+            }
+        }
+
+        function loadQuestion() {
+            const questionData = quizQuestions[currentQuestionIndex];
+            quizContent.innerHTML = ''; // Clear previous content
+            feedbackSection.classList.remove('show'); // Hide feedback
+
+            const questionSection = document.createElement('div');
+            questionSection.classList.add('question-section');
+
+            const questionText = document.createElement('div');
+            questionText.classList.add('question-text');
+            questionText.textContent = `${currentQuestionIndex + 1}. ${questionData.question}`;
+            questionSection.appendChild(questionText);
+
+            const optionsContainer = document.createElement('div');
+            optionsContainer.classList.add('options-container');
+
+            if (questionData.type === "multiple-choice") {
+                const optionLabels = ['A', 'B', 'C', 'D'];
+                optionLabels.forEach(label => {
+                    if (questionData.options[label]) {
+                        const optionButton = document.createElement('button');
+                        optionButton.classList.add('option-button');
+                        optionButton.setAttribute('data-answer', label);
+                        optionButton.innerHTML = `<span class="option-label">${label}.</span> ${questionData.options[label]}`;
+                        optionButton.onclick = () => selectAnswer(label);
+                        optionsContainer.appendChild(optionButton);
+                    }
+                });
+            } else if (questionData.type === "true-false") {
+                const trueButton = document.createElement('button');
+                trueButton.classList.add('option-button');
+                trueButton.setAttribute('data-answer', 'Benar');
+                trueButton.innerHTML = `<span class="option-label">Benar</span>`;
+                trueButton.onclick = () => selectAnswer('Benar');
+                optionsContainer.appendChild(trueButton);
+
+                const falseButton = document.createElement('button');
+                falseButton.classList.add('option-button');
+                falseButton.setAttribute('data-answer', 'Salah');
+                falseButton.innerHTML = `<span class="option-label">Salah</span>`;
+                falseButton.onclick = () => selectAnswer('Salah');
+                optionsContainer.appendChild(falseButton);
+            }
+
+            questionSection.appendChild(optionsContainer);
+            quizContent.appendChild(questionSection);
+
+            // Apply previously selected answer if exists
+            if (userAnswers[currentQuestionIndex] !== null) {
+                const selectedOption = document.querySelector(`.option-button[data-answer="${userAnswers[currentQuestionIndex]}"]`);
+                if (selectedOption) {
+                    selectedOption.classList.add('selected');
+                    // Show feedback immediately if an answer was already selected
+                    showFeedback(userAnswers[currentQuestionIndex]);
+                    disableOptions();
+                }
+            }
+
+            updateNavigationButtons();
+            updateProgressBar();
+        }
+
+        function selectAnswer(selectedOption) {
+            // Only allow selecting if not already answered or if it's a new question
+            if (userAnswers[currentQuestionIndex] === null) {
+                userAnswers[currentQuestionIndex] = selectedOption;
+                const questionData = quizQuestions[currentQuestionIndex];
+
+                const buttons = document.querySelectorAll('.option-button');
+                buttons.forEach(button => {
+                    button.classList.remove('selected');
+                    button.disabled = true; // Disable all options after selection
+                });
+
+                const selectedButton = document.querySelector(`.option-button[data-answer="${selectedOption}"]`);
+                if (selectedButton) {
+                    selectedButton.classList.add('selected');
+                }
+
+                showFeedback(selectedOption);
+                calculateScore();
+            }
+        }
+
+        function showFeedback(selectedOption) {
+            const questionData = quizQuestions[currentQuestionIndex];
+            const correctAnswer = questionData.correctAnswer;
+            const explanation = questionData.explanation;
+
+            feedbackSection.classList.add('show');
+            feedbackText.textContent = explanation;
+
+            const buttons = document.querySelectorAll('.option-button');
+            buttons.forEach(button => {
+                const optionValue = button.getAttribute('data-answer');
+                if (optionValue === correctAnswer) {
+                    button.classList.add('correct');
+                } else if (optionValue === selectedOption && selectedOption !== correctAnswer) {
+                    button.classList.add('incorrect');
+                }
+            });
+
+            if (selectedOption === correctAnswer) {
+                feedbackTitle.textContent = "Benar!";
+                feedbackTitle.style.color = '#28a745';
+            } else {
+                feedbackTitle.textContent = `Salah! Jawaban yang benar adalah ${correctAnswer}.`;
+                feedbackTitle.style.color = '#dc3545';
+            }
+        }
+
+        function disableOptions() {
+            const buttons = document.querySelectorAll('.option-button');
+            buttons.forEach(button => {
+                button.disabled = true;
+            });
+        }
+
+        function calculateScore() {
+    score = 0;
+    for (let i = 0; i < quizQuestions.length; i++) {
+        if (userAnswers[i] === quizQuestions[i].correctAnswer) {
+            // Soal 1-40 (indeks 0-39) dikali 2
+            if (i >= 0 && i <= 39) { // Indeks soal dimulai dari 0
+                score += 2;
+            }
+            // Soal 41-45 (indeks 40-44) dikali 4
+            else if (i >= 40 && i <= 44) { // Indeks soal dimulai dari 0
+                score += 4;
+            }
+        }
+    }
+    currentScoreSpan.textContent = score;
+}
+
+        function updateNavigationButtons() {
+            prevButton.disabled = currentQuestionIndex === 0;
+            nextButton.disabled = false; // Always enable next button, will show score at the end
+
+            if (currentQuestionIndex === quizQuestions.length - 1) {
+                nextButton.textContent = "Selesai & Lihat Skor";
+            } else {
+                nextButton.textContent = "Selanjutnya";
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                if (userAnswers[currentQuestionIndex] === null) {
+                    showModal("Peringatan", "Anda harus memilih jawaban sebelum melanjutkan!");
+                    return;
+                }
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                // End of quiz
+                if (userAnswers[currentQuestionIndex] === null) {
+                    showModal("Peringatan", "Anda harus memilih jawaban sebelum melihat skor akhir!");
+                    return;
+                }
+                showFinalScore();
+            }
+        });
+
+        function showFinalScore() {
+            quizContent.style.display = 'none';
+            feedbackSection.style.display = 'none';
+            navigationButtons.style.display = 'none';
+            scoreSection.style.display = 'block';
+            totalQuestionsSpan.textContent = quizQuestions.length;
+            currentScoreSpan.textContent = score;
+
+            let message = `Anda menjawab ${score} dari ${quizQuestions.length} pertanyaan dengan benar.`;
+            let title = "Kuis Selesai!";
+
+            if (score === quizQuestions.length) {
+                title = "Sempurna!";
+                message += " Selamat, Anda menjawab semua pertanyaan dengan benar!";
+            } else if (score >= quizQuestions.length / 2) {
+                title = "Kerja Bagus!";
+                message += " Anda memiliki pemahaman yang baik.";
+            } else {
+                title = "Terus Belajar!";
+                message += " Anda bisa mencoba lagi untuk meningkatkan skor Anda.";
+            }
+            showModal(title, message);
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestion();
+            totalQuestionsSpan.textContent = quizQuestions.length;
+            currentScoreSpan.textContent = score; // Initialize score display
+        });
+    </script>
+</body>
+</html>
