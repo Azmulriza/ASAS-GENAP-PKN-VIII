@@ -251,25 +251,106 @@ body {
 </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <h1 class="quiz-header">SOAL ASAS GENAP PKN VIII</h1>
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div id="quizContent">
-            </div>
-        <div class="feedback-section" id="feedbackSection">
-            <div class="feedback-title" id="feedbackTitle"></div>
-            <div class="feedback-text" id="feedbackText"></div>
-        </div>
-        <div class="navigation-buttons" id="navigationButtons">
-            <button class="nav-button" id="prevButton" disabled>Sebelumnya</button>
-            <button class="nav-button" id="nextButton">Selanjutnya</button>
-        </div>
-        <div class="score-section" id="scoreSection" style="display: none;">
-            Skor Anda: <span id="currentScore">0</span> / <span id="totalQuestions">0</span>
-        </div>
+	<div id="introForm" class="quiz-container">
+  <h2 class="quiz-header">Identitas Peserta</h2>
+
+<label for="namaSiswa" class="block mb-2 text-left">Nama:</label>
+<select id="namaSiswa" class="w-full p-2 border rounded mb-4">
+  <option value="">-- Pilih Nama --</option>
+  <option value="Adellya Fellya Natasya">Adellya Fellya Natasya</option>
+  <option value="Afita Zakiyatul Al-ulya">Afita Zakiyatul Al-ulya</option>
+  <option value="Ahmad Ahsanul Azam">Ahmad Ahsanul Azam</option>
+  <option value="Ahmad Arrino Fawwaz Zukhaili">Ahmad Arrino Fawwaz Zukhaili</option>
+  <option value="Ahmad Asfa Risalul Amin">Ahmad Asfa Risalul Amin</option>
+  <option value="Ahmad Faza Nailul Wafa">Ahmad Faza Nailul Wafa</option>
+  <option value="Ahmad Kafa Bi'aunil Maula">Ahmad Kafa Bi'aunil Maula</option>
+  <option value="Ahmad Nashih Ibad">Ahmad Nashih Ibad</option>
+  <option value="Ahmad Rafi Andika Pratama">Ahmad Rafi Andika Pratama</option>
+  <option value="Ahmad Rohibur Romadhoni">Ahmad Rohibur Romadhoni</option>
+  <option value="Ahmad Taufiqur Rohman">Ahmad Taufiqur Rohman</option>
+  <option value="Ahmad Ulil Arham">Ahmad Ulil Arham</option>
+  <option value="Ananda Miko Praditya">Ananda Miko Praditya</option>
+  <option value="Annisa Syifa">Annisa Syifa</option>
+  <option value="Annizam Eza Pratama">Annizam Eza Pratama</option>
+  <option value="Arfian Nashikul Amin">Arfian Nashikul Amin</option>
+  <option value="Azka Syifaur Rohman">Azka Syifaur Rohman</option>
+  <option value="Dannish Haidar Ahmad">Dannish Haidar Ahmad</option>
+  <option value="Devita Prasetyani">Devita Prasetyani</option>
+  <option value="Fahrul Hanan Afriza">Fahrul Hanan Afriza</option>
+  <option value="Faridatussaadah">Faridatussaadah</option>
+  <option value="Ika Amelia Nailul Hikmah">Ika Amelia Nailul Hikmah</option>
+  <option value="Ikrom Kurnia Aji">Ikrom Kurnia Aji</option>
+  <option value="Lailatun Nisa' Almagfiroh">Lailatun Nisa' Almagfiroh</option>
+  <option value="Laili Nor Maulida">Laili Nor Maulida</option>
+  <option value="Lavioka Abrori">Lavioka Abrori</option>
+  <option value="Layta Rahmatul Hiiran">Layta Rahmatul Hiiran</option>
+  <option value="Lena Lestari">Lena Lestari</option>
+  <option value="Maulida Roikhatul Jannah">Maulida Roikhatul Jannah</option>
+  <option value="Meysha Novelin Olivia">Meysha Novelin Olivia</option>
+  <option value="Moch Nauval Alfian">Moch Nauval Alfian</option>
+  <option value="Mochammad Rizky Andika">Mochammad Rizky Andika</option>
+  <option value="Mohammad Khanif Taufiqi">Mohammad Khanif Taufiqi</option>
+  <option value="Mohammad Nauval Farih">Mohammad Nauval Farih</option>
+  <option value="Muhammad Arif Royani">Muhammad Arif Royani</option>
+  <option value="Muhammad Azra Syauqi N.">Muhammad Azra Syauqi N.</option>
+  <option value="Muhammad Burhanuddin">Muhammad Burhanuddin</option>
+  <option value="Muhammad Farih Aulia Asfa">Muhammad Farih Aulia Asfa</option>
+  <option value="Muhammad Faza Maulana">Muhammad Faza Maulana</option>
+  <option value="Muhammad Faza Syariful Mizan">Muhammad Faza Syariful Mizan</option>
+  <option value="Muhammad Niko Andika Putra">Muhammad Niko Andika Putra</option>
+  <option value="Muhammad Wahyu Pratama">Muhammad Wahyu Pratama</option>
+  <option value="Muhammad Wildan Atho'illah">Muhammad Wildan Atho'illah</option>
+  <option value="Nafa'atus Sholihah">Nafa'atus Sholihah</option>
+  <option value="Natasya Adila Putri">Natasya Adila Putri</option>
+  <option value="Natasya Mufaidhatul Husna">Natasya Mufaidhatul Husna</option>
+  <option value="Nur Ashfa Pratama">Nur Ashfa Pratama</option>
+  <option value="Nur Faizatul Aleesya">Nur Faizatul Aleesya</option>
+  <option value="Pasha Shandy Pratomo">Pasha Shandy Pratomo</option>
+  <option value="Rafa Ayesa Fazila Putra">Rafa Ayesa Fazila Putra</option>
+  <option value="Rendy Eka Prastiyo">Rendy Eka Prastiyo</option>
+  <option value="Reza Rahardian Pratama">Reza Rahardian Pratama</option>
+  <option value="Salwa Ayyaukiya Zahwa">Salwa Ayyaukiya Zahwa</option>
+  <option value="Salsa Muntaqia Najia">Salsa Muntaqia Najia</option>
+  <option value="Shafia Allamashofiwa Ali">Shafia Allamashofiwa Ali</option>
+  <option value="Siti Roihanah">Siti Roihanah</option>
+  <option value="Syahrido Alim Akbar">Syahrido Alim Akbar</option>
+  <option value="Vely Nia Afriadi">Vely Nia Afriadi</option>
+  <option value="Widhizah Musyarrofah">Widhizah Musyarrofah</option>
+  <option value="Zahra Asnatul Husna">Zahra Asnatul Husna</option>
+  <option value="Zainuddin">Zainuddin</option>
+  <option value="Zivilia Rosidha">Zivilia Rosidha</option>
+</select>
+
+  <label for="kelasSiswa" class="block mb-2 text-left">Kelas:</label>
+  <select id="kelasSiswa" class="w-full p-2 border rounded mb-4">
+    <option value="">-- Pilih Kelas --</option>
+    <option value="VIII A">VIII A</option>
+    <option value="VIII B">VIII B</option>
+       </select>
+
+  <button onclick="mulaiKuis()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Mulai Kuis</button>
+</div>
+
+		
+    <div class="quiz-container" id="mainQuizContainer" style="display: none;">
+    <h1 class="quiz-header">SOAL ASAS GENAP PKN VIII</h1>
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
     </div>
+    <div id="quizContent">
+    </div>
+    <div class="feedback-section" id="feedbackSection">
+        <div class="feedback-title" id="feedbackTitle"></div>
+        <div class="feedback-text" id="feedbackText"></div>
+    </div>
+    <div class="navigation-buttons" id="navigationButtons">
+        <button class="nav-button" id="prevButton" disabled>Sebelumnya</button>
+        <button class="nav-button" id="nextButton">Selanjutnya</button>
+    </div>
+    <div class="score-section" id="scoreSection" style="display: none;">
+        Skor Anda: <span id="currentScore">0</span> / <span id="totalQuestions">0</span>
+    </div>
+</div>
 
     <div id="customModal" class="modal">
         <div class="modal-content">
@@ -954,21 +1035,21 @@ body {
         }
 
         function calculateScore() {
-    score = 0;
-    for (let i = 0; i < quizQuestions.length; i++) {
-        if (userAnswers[i] === quizQuestions[i].correctAnswer) {
-            // Soal 1-40 (indeks 0-39) dikali 2
-            if (i >= 0 && i <= 39) { // Indeks soal dimulai dari 0
-                score += 2;
+            score = 0;
+            for (let i = 0; i < quizQuestions.length; i++) {
+                if (userAnswers[i] === quizQuestions[i].correctAnswer) {
+                    // Soal 1-40 (indeks 0-39) dikali 2
+                    if (i >= 0 && i <= 39) { // Indeks soal dimulai dari 0
+                        score += 2;
+                    }
+                    // Soal 41-45 (indeks 40-44) dikali 4
+                    else if (i >= 40 && i <= 44) { // Indeks soal dimulai dari 0
+                        score += 4;
+                    }
+                }
             }
-            // Soal 41-45 (indeks 40-44) dikali 4
-            else if (i >= 40 && i <= 44) { // Indeks soal dimulai dari 0
-                score += 4;
-            }
+            currentScoreSpan.textContent = score;
         }
-    }
-    currentScoreSpan.textContent = score;
-}
 
         function updateNavigationButtons() {
             prevButton.disabled = currentQuestionIndex === 0;
@@ -1019,27 +1100,48 @@ body {
             totalQuestionsSpan.textContent = quizQuestions.length;
             currentScoreSpan.textContent = score;
 
-            let message = `Anda menjawab ${score} dari ${quizQuestions.length} pertanyaan dengan benar.`;
+            const nama = localStorage.getItem('namaSiswa');
+            const kelas = localStorage.getItem('kelasSiswa');
+
             let title = "Kuis Selesai!";
+            let message = `Nama: ${nama}\nKelas: ${kelas}\nSkor: ${score} dari ${quizQuestions.length} pertanyaan.`;
 
             if (score === quizQuestions.length) {
                 title = "Sempurna!";
-                message += " Selamat, Anda menjawab semua pertanyaan dengan benar!";
+                message += "\n\nSelamat, Anda menjawab semua pertanyaan dengan benar!";
             } else if (score >= quizQuestions.length / 2) {
                 title = "Kerja Bagus!";
-                message += " Anda memiliki pemahaman yang baik.";
+                message += "\n\nAnda memiliki pemahaman yang baik.";
             } else {
                 title = "Terus Belajar!";
-                message += " Anda bisa mencoba lagi untuk meningkatkan skor Anda.";
+                message += "\n\nAnda bisa mencoba lagi untuk meningkatkan skor Anda.";
             }
+
             showModal(title, message);
         }
 
         // Initial load
+        function mulaiKuis() {
+            const nama = document.getElementById('namaSiswa').value;
+            const kelas = document.getElementById('kelasSiswa').value;
+
+            if (!nama || !kelas) {
+                alert("Silakan pilih nama dan kelas terlebih dahulu.");
+                return;
+            }
+
+            localStorage.setItem('namaSiswa', nama);
+            localStorage.setItem('kelasSiswa', kelas);
+
+            document.getElementById('introForm').style.display = 'none';
+            document.getElementById('mainQuizContainer').style.display = 'block';
+
+            loadQuestion(); 
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            loadQuestion();
             totalQuestionsSpan.textContent = quizQuestions.length;
-            currentScoreSpan.textContent = score; // Initialize score display
+            currentScoreSpan.textContent = score;
         });
     </script>
 </body>
