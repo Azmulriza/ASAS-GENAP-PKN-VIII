@@ -11,7 +11,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
             display: flex;
-            flex-direction: column; /* Mengubah ini menjadi kolom */
+            flex-direction: column; /* Mengubah ini menjadi kolom agar elemen tertumpuk vertikal */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -928,7 +928,7 @@
         const currentScoreSpan = document.getElementById('currentScore');
         const totalQuestionsSpan = document.getElementById('totalQuestions');
         const progressBar = document.getElementById('progressBar');
-        const downloadSection = document.getElementById('downloadSection'); // Ambil elemen downloadSection
+        const downloadSection = document.getElementById('downloadSection'); // Deklarasi variabel downloadSection di sini
 
         // Modal elements
         const customModal = document.getElementById('customModal');
