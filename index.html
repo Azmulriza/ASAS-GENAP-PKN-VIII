@@ -11,6 +11,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
             display: flex;
+            flex-direction: column; /* Mengubah ini menjadi kolom */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -27,6 +28,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            margin-bottom: 20px; /* Tambahkan margin bawah untuk spasi */
         }
         .question-section {
             margin-bottom: 25px;
@@ -222,135 +224,164 @@
             background-color: #3182ce;
         }
     
-@media (max-width: 480px) {
-    .question-text {
-        font-size: 1.1rem;
-    }
+        @media (max-width: 480px) {
+            .question-text {
+                font-size: 1.1rem;
+            }
 
-    .option-button {
-        font-size: 0.95rem;
-        padding: 10px 14px;
-    }
+            .option-button {
+                font-size: 0.95rem;
+                padding: 10px 14px;
+            }
 
-    .quiz-container {
-        padding: 20px;
-    }
+            .quiz-container {
+                padding: 20px;
+            }
 
-    .navigation-buttons {
-        flex-direction: column;
-    }
-}
+            .navigation-buttons {
+                flex-direction: column;
+            }
+        }
 
-.option-button, .nav-button {
-    min-height: 48px;
-}
+        .option-button, .nav-button {
+            min-height: 48px;
+        }
 
-body {
-    overflow-y: auto;
-}
-</style>
+        /* Gaya baru untuk tombol download */
+        #downloadSection {
+            display: none; /* Sembunyikan secara default */
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+        #downloadSection h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        #downloadSection button {
+            background-color: #28a745; /* Warna hijau untuk tombol download */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+        #downloadSection button:hover {
+            background-color: #218838;
+        }
+
+    </style>
 </head>
 <body>
 	<div id="introForm" class="quiz-container">
-  <h2 class="quiz-header">Identitas Peserta</h2>
+        <h2 class="quiz-header">Identitas Peserta</h2>
 
-<label for="namaSiswa" class="block mb-2 text-left">Nama:</label>
-<select id="namaSiswa" class="w-full p-2 border rounded mb-4">
-  <option value="">-- Pilih Nama --</option>
-  <option value="Adellya Fellya Natasya">Adellya Fellya Natasya</option>
-  <option value="Afita Zakiyatul Al-ulya">Afita Zakiyatul Al-ulya</option>
-  <option value="Ahmad Ahsanul Azam">Ahmad Ahsanul Azam</option>
-  <option value="Ahmad Arrino Fawwaz Zukhaili">Ahmad Arrino Fawwaz Zukhaili</option>
-  <option value="Ahmad Asfa Risalul Amin">Ahmad Asfa Risalul Amin</option>
-  <option value="Ahmad Faza Nailul Wafa">Ahmad Faza Nailul Wafa</option>
-  <option value="Ahmad Kafa Bi'aunil Maula">Ahmad Kafa Bi'aunil Maula</option>
-  <option value="Ahmad Nashih Ibad">Ahmad Nashih Ibad</option>
-  <option value="Ahmad Rafi Andika Pratama">Ahmad Rafi Andika Pratama</option>
-  <option value="Ahmad Rohibur Romadhoni">Ahmad Rohibur Romadhoni</option>
-  <option value="Ahmad Taufiqur Rohman">Ahmad Taufiqur Rohman</option>
-  <option value="Ahmad Ulil Arham">Ahmad Ulil Arham</option>
-  <option value="Ananda Miko Praditya">Ananda Miko Praditya</option>
-  <option value="Annisa Syifa">Annisa Syifa</option>
-  <option value="Annizam Eza Pratama">Annizam Eza Pratama</option>
-  <option value="Arfian Nashikul Amin">Arfian Nashikul Amin</option>
-  <option value="Azka Syifaur Rohman">Azka Syifaur Rohman</option>
-  <option value="Dannish Haidar Ahmad">Dannish Haidar Ahmad</option>
-  <option value="Devita Prasetyani">Devita Prasetyani</option>
-  <option value="Fahrul Hanan Afriza">Fahrul Hanan Afriza</option>
-  <option value="Faridatussaadah">Faridatussaadah</option>
-  <option value="Ika Amelia Nailul Hikmah">Ika Amelia Nailul Hikmah</option>
-  <option value="Ikrom Kurnia Aji">Ikrom Kurnia Aji</option>
-  <option value="Lailatun Nisa' Almagfiroh">Lailatun Nisa' Almagfiroh</option>
-  <option value="Laili Nor Maulida">Laili Nor Maulida</option>
-  <option value="Lavioka Abrori">Lavioka Abrori</option>
-  <option value="Layta Rahmatul Hiiran">Layta Rahmatul Hiiran</option>
-  <option value="Lena Lestari">Lena Lestari</option>
-  <option value="Maulida Roikhatul Jannah">Maulida Roikhatul Jannah</option>
-  <option value="Meysha Novelin Olivia">Meysha Novelin Olivia</option>
-  <option value="Moch Nauval Alfian">Moch Nauval Alfian</option>
-  <option value="Mochammad Rizky Andika">Mochammad Rizky Andika</option>
-  <option value="Mohammad Khanif Taufiqi">Mohammad Khanif Taufiqi</option>
-  <option value="Mohammad Nauval Farih">Mohammad Nauval Farih</option>
-  <option value="Muhammad Arif Royani">Muhammad Arif Royani</option>
-  <option value="Muhammad Azra Syauqi N.">Muhammad Azra Syauqi N.</option>
-  <option value="Muhammad Burhanuddin">Muhammad Burhanuddin</option>
-  <option value="Muhammad Farih Aulia Asfa">Muhammad Farih Aulia Asfa</option>
-  <option value="Muhammad Faza Maulana">Muhammad Faza Maulana</option>
-  <option value="Muhammad Faza Syariful Mizan">Muhammad Faza Syariful Mizan</option>
-  <option value="Muhammad Niko Andika Putra">Muhammad Niko Andika Putra</option>
-  <option value="Muhammad Wahyu Pratama">Muhammad Wahyu Pratama</option>
-  <option value="Muhammad Wildan Atho'illah">Muhammad Wildan Atho'illah</option>
-  <option value="Nafa'atus Sholihah">Nafa'atus Sholihah</option>
-  <option value="Natasya Adila Putri">Natasya Adila Putri</option>
-  <option value="Natasya Mufaidhatul Husna">Natasya Mufaidhatul Husna</option>
-  <option value="Nur Ashfa Pratama">Nur Ashfa Pratama</option>
-  <option value="Nur Faizatul Aleesya">Nur Faizatul Aleesya</option>
-  <option value="Pasha Shandy Pratomo">Pasha Shandy Pratomo</option>
-  <option value="Rafa Ayesa Fazila Putra">Rafa Ayesa Fazila Putra</option>
-  <option value="Rendy Eka Prastiyo">Rendy Eka Prastiyo</option>
-  <option value="Reza Rahardian Pratama">Reza Rahardian Pratama</option>
-  <option value="Salwa Ayyaukiya Zahwa">Salwa Ayyaukiya Zahwa</option>
-  <option value="Salsa Muntaqia Najia">Salsa Muntaqia Najia</option>
-  <option value="Shafia Allamashofiwa Ali">Shafia Allamashofiwa Ali</option>
-  <option value="Siti Roihanah">Siti Roihanah</option>
-  <option value="Syahrido Alim Akbar">Syahrido Alim Akbar</option>
-  <option value="Vely Nia Afriadi">Vely Nia Afriadi</option>
-  <option value="Widhizah Musyarrofah">Widhizah Musyarrofah</option>
-  <option value="Zahra Asnatul Husna">Zahra Asnatul Husna</option>
-  <option value="Zainuddin">Zainuddin</option>
-  <option value="Zivilia Rosidha">Zivilia Rosidha</option>
-</select>
+        <label for="namaSiswa" class="block mb-2 text-left">Nama:</label>
+        <select id="namaSiswa" class="w-full p-2 border rounded mb-4">
+            <option value="">-- Pilih Nama --</option>
+            <option value="Adellya Fellya Natasya">Adellya Fellya Natasya</option>
+            <option value="Afita Zakiyatul Al-ulya">Afita Zakiyatul Al-ulya</option>
+            <option value="Ahmad Ahsanul Azam">Ahmad Ahsanul Azam</option>
+            <option value="Ahmad Arrino Fawwaz Zukhaili">Ahmad Arrino Fawwaz Zukhaili</option>
+            <option value="Ahmad Asfa Risalul Amin">Ahmad Asfa Risalul Amin</option>
+            <option value="Ahmad Faza Nailul Wafa">Ahmad Faza Nailul Wafa</option>
+            <option value="Ahmad Kafa Bi'aunil Maula">Ahmad Kafa Bi'aunil Maula</option>
+            <option value="Ahmad Nashih Ibad">Ahmad Nashih Ibad</option>
+            <option value="Ahmad Rafi Andika Pratama">Ahmad Rafi Andika Pratama</option>
+            <option value="Ahmad Rohibur Romadhoni">Ahmad Rohibur Romadhoni</option>
+            <option value="Ahmad Taufiqur Rohman">Ahmad Taufiqur Rohman</option>
+            <option value="Ahmad Ulil Arham">Ahmad Ulil Arham</option>
+            <option value="Ananda Miko Praditya">Ananda Miko Praditya</option>
+            <option value="Annisa Syifa">Annisa Syifa</option>
+            <option value="Annizam Eza Pratama">Annizam Eza Pratama</option>
+            <option value="Arfian Nashikul Amin">Arfian Nashikul Amin</option>
+            <option value="Azka Syifaur Rohman">Azka Syifaur Rohman</option>
+            <option value="Dannish Haidar Ahmad">Dannish Haidar Ahmad</option>
+            <option value="Devita Prasetyani">Devita Prasetyani</option>
+            <option value="Fahrul Hanan Afriza">Fahrul Hanan Afriza</option>
+            <option value="Faridatussaadah">Faridatussaadah</option>
+            <option value="Ika Amelia Nailul Hikmah">Ika Amelia Nailul Hikmah</option>
+            <option value="Ikrom Kurnia Aji">Ikrom Kurnia Aji</option>
+            <option value="Lailatun Nisa' Almagfiroh">Lailatun Nisa' Almagfiroh</option>
+            <option value="Laili Nor Maulida">Laili Nor Maulida</option>
+            <option value="Lavioka Abrori">Lavioka Abrori</option>
+            <option value="Layta Rahmatul Hiiran">Layta Rahmatul Hiiran</option>
+            <option value="Lena Lestari">Lena Lestari</option>
+            <option value="Maulida Roikhatul Jannah">Maulida Roikhatul Jannah</option>
+            <option value="Meysha Novelin Olivia">Meysha Novelin Olivia</option>
+            <option value="Moch Nauval Alfian">Moch Nauval Alfian</option>
+            <option value="Mochammad Rizky Andika">Mochammad Rizky Andika</option>
+            <option value="Mohammad Khanif Taufiqi">Mohammad Khanif Taufiqi</option>
+            <option value="Mohammad Nauval Farih">Mohammad Nauval Farih</option>
+            <option value="Muhammad Arif Royani">Muhammad Arif Royani</option>
+            <option value="Muhammad Azra Syauqi N.">Muhammad Azra Syauqi N.</option>
+            <option value="Muhammad Burhanuddin">Muhammad Burhanuddin</option>
+            <option value="Muhammad Farih Aulia Asfa">Muhammad Farih Aulia Asfa</option>
+            <option value="Muhammad Faza Maulana">Muhammad Faza Maulana</option>
+            <option value="Muhammad Faza Syariful Mizan">Muhammad Faza Syariful Mizan</option>
+            <option value="Muhammad Niko Andika Putra">Muhammad Niko Andika Putra</option>
+            <option value="Muhammad Wahyu Pratama">Muhammad Wahyu Pratama</option>
+            <option value="Muhammad Wildan Atho'illah">Muhammad Wildan Atho'illah</option>
+            <option value="Nafa'atus Sholihah">Nafa'atus Sholihah</option>
+            <option value="Natasya Adila Putri">Natasya Adila Putri</option>
+            <option value="Natasya Mufaidhatul Husna">Natasya Mufaidhatul Husna</option>
+            <option value="Nur Ashfa Pratama">Nur Ashfa Pratama</option>
+            <option value="Nur Faizatul Aleesya">Nur Faizatul Aleesya</option>
+            <option value="Pasha Shandy Pratomo">Pasha Shandy Pratomo</option>
+            <option value="Rafa Ayesa Fazila Putra">Rafa Ayesa Fazila Putra</option>
+            <option value="Rendy Eka Prastiyo">Rendy Eka Prastiyo</option>
+            <option value="Reza Rahardian Pratama">Reza Rahardian Pratama</option>
+            <option value="Salwa Ayyaukiya Zahwa">Salwa Ayyaukiya Zahwa</option>
+            <option value="Salsa Muntaqia Najia">Salsa Muntaqia Najia</option>
+            <option value="Shafia Allamashofiwa Ali">Shafia Allamashofiwa Ali</option>
+            <option value="Siti Roihanah">Siti Roihanah</option>
+            <option value="Syahrido Alim Akbar">Syahrido Alim Akbar</option>
+            <option value="Vely Nia Afriadi">Vely Nia Afriadi</option>
+            <option value="Widhizah Musyarrofah">Widhizah Musyarrofah</option>
+            <option value="Zahra Asnatul Husna">Zahra Asnatul Husna</option>
+            <option value="Zainuddin">Zainuddin</option>
+            <option value="Zivilia Rosidha">Zivilia Rosidha</option>
+        </select>
 
-  <label for="kelasSiswa" class="block mb-2 text-left">Kelas:</label>
-  <select id="kelasSiswa" class="w-full p-2 border rounded mb-4">
-    <option value="">-- Pilih Kelas --</option>
-    <option value="VIII A">VIII A</option>
-    <option value="VIII B">VIII B</option>
-       </select>
+        <label for="kelasSiswa" class="block mb-2 text-left">Kelas:</label>
+        <select id="kelasSiswa" class="w-full p-2 border rounded mb-4">
+            <option value="">-- Pilih Kelas --</option>
+            <option value="VIII A">VIII A</option>
+            <option value="VIII B">VIII B</option>
+        </select>
 
-  <button onclick="mulaiKuis()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Mulai Kuis</button>
-</div>
+        <button onclick="mulaiKuis()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Mulai Kuis</button>
+    </div>
 
-		
     <div class="quiz-container" id="mainQuizContainer" style="display: none;">
-    <h1 class="quiz-header">SOAL ASAS GENAP PKN VIII</h1>
-    <div class="progress-bar-container">
-        <div class="progress-bar" id="progressBar"></div>
+        <h1 class="quiz-header">SOAL ASAS GENAP PKN VIII</h1>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="quizContent">
+        </div>
+        <div class="feedback-section" id="feedbackSection">
+            <div class="feedback-title" id="feedbackTitle"></div>
+            <div class="feedback-text" id="feedbackText"></div>
+        </div>
+        <div class="navigation-buttons" id="navigationButtons">
+            <button class="nav-button" id="prevButton" disabled>Sebelumnya</button>
+            <button class="nav-button" id="nextButton">Selanjutnya</button>
+        </div>
+        <div class="score-section" id="scoreSection" style="display: none;">
+            Skor Anda: <span id="currentScore">0</span> / <span id="totalQuestions">0</span>
+        </div>
     </div>
-    <div id="quizContent">
-    </div>
-    <div class="feedback-section" id="feedbackSection">
-        <div class="feedback-title" id="feedbackTitle"></div>
-        <div class="feedback-text" id="feedbackText"></div>
-    </div>
-    <div class="navigation-buttons" id="navigationButtons">
-        <button class="nav-button" id="prevButton" disabled>Sebelumnya</button>
-        <button class="nav-button" id="nextButton">Selanjutnya</button>
-    </div>
-    <div class="score-section" id="scoreSection" style="display: none;">
-        Skor Anda: <span id="currentScore">0</span> / <span id="totalQuestions">0</span>
-    </div>
-</div>
 
     <div id="customModal" class="modal">
         <div class="modal-content">
@@ -359,6 +390,13 @@ body {
             <p class="modal-message" id="modalMessage"></p>
             <button class="modal-button" id="modalOkButton">OK</button>
         </div>
+    </div>
+
+    <div id="downloadSection">
+        <h2>Unduh Jadwal ASAS</h2>
+        <a href="JADWAL_ASAS.jpg" download>
+            <button>Download Gambar Jadwal</button>
+        </a>
     </div>
 
     <script>
@@ -890,6 +928,7 @@ body {
         const currentScoreSpan = document.getElementById('currentScore');
         const totalQuestionsSpan = document.getElementById('totalQuestions');
         const progressBar = document.getElementById('progressBar');
+        const downloadSection = document.getElementById('downloadSection'); // Ambil elemen downloadSection
 
         // Modal elements
         const customModal = document.getElementById('customModal');
@@ -1093,10 +1132,10 @@ body {
         });
 
         function showFinalScore() {
-            quizContent.style.display = 'none';
-            feedbackSection.style.display = 'none';
-            navigationButtons.style.display = 'none';
-            scoreSection.style.display = 'block';
+            document.getElementById('mainQuizContainer').style.display = 'none'; // Sembunyikan kontainer kuis utama
+            downloadSection.style.display = 'block'; // Tampilkan bagian download
+            
+            // Logika untuk menampilkan skor akhir di modal tetap ada
             totalQuestionsSpan.textContent = quizQuestions.length;
             currentScoreSpan.textContent = score;
 
@@ -1142,13 +1181,8 @@ body {
         document.addEventListener('DOMContentLoaded', () => {
             totalQuestionsSpan.textContent = quizQuestions.length;
             currentScoreSpan.textContent = score;
+            downloadSection.style.display = 'none'; // Pastikan tombol download tersembunyi saat halaman dimuat
         });
     </script>
-	
-    <hr>
-    <h2>Unduh Jadwal ASAS</h2>
-    <a href="JADWAL_ASAS.jpg" download>
-      <button>Download Gambar Jadwal</button>
-    </a>
 </body>
 </html>
