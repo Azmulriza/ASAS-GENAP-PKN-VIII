@@ -1244,14 +1244,15 @@
             introForm.style.display = 'block';
         }
         
-        function tryAutoStartQuiz() {
-            const nama = namaSiswaSelect.value;
-            const kelas = kelasSiswaSelect.value;
+        // Fungsi tryAutoStartQuiz tidak lagi dipanggil secara otomatis
+        // function tryAutoStartQuiz() {
+        //     const nama = namaSiswaSelect.value;
+        //     const kelas = kelasSiswaSelect.value;
 
-            if (nama && kelas) { // Jika nama DAN kelas sudah terpilih (bukan string kosong)
-                mulaiKuis();
-            }
-        }
+        //     if (nama && kelas) { // Jika nama DAN kelas sudah terpilih (bukan string kosong)
+        //         mulaiKuis();
+        //     }
+        // }
 
         function mulaiKuis() {
             const nama = namaSiswaSelect.value;
@@ -1287,13 +1288,13 @@
             mainQuizContainer.style.display = 'none'; 
             downloadSection.style.display = 'none'; 
 
-            // Tambahkan event listener untuk auto start quiz
-            if (namaSiswaSelect) {
-                namaSiswaSelect.addEventListener('change', tryAutoStartQuiz);
-            }
-            if (kelasSiswaSelect) {
-                kelasSiswaSelect.addEventListener('change', tryAutoStartQuiz);
-            }
+            // Hapus event listener untuk auto start quiz
+            // if (namaSiswaSelect) {
+            //     namaSiswaSelect.addEventListener('change', tryAutoStartQuiz);
+            // }
+            // if (kelasSiswaSelect) {
+            //     kelasSiswaSelect.addEventListener('change', tryAutoStartQuiz);
+            // }
         });
     </script>
 </body>
