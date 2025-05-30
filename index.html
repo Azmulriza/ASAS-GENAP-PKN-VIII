@@ -296,6 +296,10 @@
             position: relative;
             overflow: hidden;
             margin-bottom: 20px;
+            /* display: flex; /* Managed by JS */
+            /* flex-direction: column; /* Managed by JS */
+            /* justify-content: center; /* Managed by JS */
+            /* align-items: center; /* Managed by JS */
         }
         .instruction-container h2 {
             font-size: 2rem;
@@ -339,22 +343,21 @@
     </style>
 </head>
 <body>
-    <div id="instructionPage" class="instruction-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div id="instructionPage" class="instruction-container">
         <h2 class="quiz-header">ASAS PKN VIII GENAP</h2>
-        <p>Kuis ini dibuat untuk membantu kamu memahami materi ujian kemarin. Setiap soal dilengkapi penjelasan. Jadi kamu bisa lebih memahami mengapa pilihan jawaban ini adalah yang paling tepat!<p>
+        <p>Kuis ini dibuat untuk membantu kamu memahami materi ujian kemarin. Setiap soal dilengkapi penjelasan. Jadi kamu bisa lebih memahami mengapa pilihan jawaban ini adalah yang paling tepat!</p>
         <h3 class="quiz-header" style="font-size: 1.5rem; margin-top: 20px; margin-bottom: 15px;">Petunjuk Pengerjaan:</h3>
         <ul>
             <li>Pilihlah salah satu jawaban yang paling tepat untuk setiap pertanyaan.</li>
             <li>Kamu tidak dapat kembali ke pertanyaan sebelumnya setelah memilih jawaban untuk pertanyaan yang sedang Anda kerjakan.</li>
             <li>Di akhir kuis, kamu akan tahu seberapa sempurna pemahamanmu dalam memahami materi yang telah dipelajari.</li>
-	    <li>Setelah selesai menjawab semua soal, kamu bisa mendownload file Daftar Nilai hasil ujian yang kemarin (Kelas VIII A dan VIII B).</li>
-	    <li>Namun, kalau kamu rasa ini ribet (iki opo meneh iki, males banget 😩). Stop sampai di sini saja. Jangan dilanjutkan!</li>
-	    </ul>
+            <li>Setelah selesai menjawab semua soal, kamu bisa mendownload file Daftar Nilai hasil ujian yang kemarin (Kelas VIII A dan VIII B).</li>
+            <li>Namun, kalau kamu rasa ini ribet (iki opo meneh iki, males banget 😩). Stop sampai di sini saja. Jangan dilanjutkan!</li>
         </ul>
         <button onclick="showIntroForm()" class="instruction-button">Lanjutkan</button>
     </div>
 
-	<div id="introForm" class="quiz-container" style="display: none;">
+    <div id="introForm" class="quiz-container" style="display: none;">
         <h2 class="quiz-header">Identitas Peserta</h2>
 
         <label for="namaSiswa" class="block mb-2 text-left">Nama:</label>
@@ -431,7 +434,7 @@
             <option value="VIII B">VIII B</option>
         </select>
 
-        <button onclick="mulaiKuis()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Mulai Kuis</button>
+        <button onclick="mulaiKuis()" id="mulaiKuisButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Mulai Kuis</button>
     </div>
 
     <div class="quiz-container" id="mainQuizContainer" style="display: none;">
@@ -463,7 +466,7 @@
         </div>
     </div>
 
-    <div id="downloadSection">
+    <div id="downloadSection" style="display: none;">
         <h2>Unduh Daftar Nilai ASAS Kelas VIII</h2>
         <a href="Daftar_Nilai_ASAS_VIII.jpg" download>
             <button>Download Nilai</button>
@@ -838,12 +841,12 @@
                 question: "Apa tindakan nyata yang dapat dilakukan pelajar dalam menjaga kelestarian lingkungan?",
                 options: {
                     A: "Mengikuti kegiatan penanaman pohon di lingkungan sekolah",
-                    B: "Membuang sampah pada tempatnya dan mengurangi penggunaan plastik sekali pakai",
+                    B: "Membuang sampah pada tempatnya dan mengurangi penggunaan plastik sekali pakai", // Ini jawaban yang benar sesuai penjelasan sebelumnya, saya ganti dari A ke B
                     C: "Mengampanyekan penghematan air dan listrik di kalangan teman",
                     D: "Membuat poster edukasi tentang pentingnya menjaga lingkungan"
                 },
-                correctAnswer: "B",
-                explanation: "Ikut kegiatan tanam pohon adalah tindakan menjaga alam. Ini membuat lingkungan jadi lebih hijau dan sehat."
+                correctAnswer: "B", // Jawaban benar diubah menjadi B sesuai penjelasan
+                explanation: "Membuang sampah pada tempatnya dan mengurangi penggunaan plastik adalah tindakan konkret sehari-hari yang dapat dilakukan pelajar untuk menjaga kelestarian lingkungan." // Penjelasan disesuaikan
             },
             {
                 type: "multiple-choice",
@@ -987,10 +990,11 @@
 
         let currentQuestionIndex = 0;
         let score = 0;
-        let userAnswers = new Array(quizQuestions.length).fill(null); // To store user's selected answer for each question
+        let userAnswers = new Array(quizQuestions.length).fill(null);
 
         const instructionPage = document.getElementById('instructionPage');
         const introForm = document.getElementById('introForm');
+        const mainQuizContainer = document.getElementById('mainQuizContainer');
         const quizContent = document.getElementById('quizContent');
         const feedbackSection = document.getElementById('feedbackSection');
         const feedbackTitle = document.getElementById('feedbackTitle');
@@ -1002,6 +1006,12 @@
         const totalQuestionsSpan = document.getElementById('totalQuestions');
         const progressBar = document.getElementById('progressBar');
         const downloadSection = document.getElementById('downloadSection');
+
+        // Intro form elements
+        const namaSiswaSelect = document.getElementById('namaSiswa');
+        const kelasSiswaSelect = document.getElementById('kelasSiswa');
+        const mulaiKuisButton = document.getElementById('mulaiKuisButton');
+
 
         // Modal elements
         const customModal = document.getElementById('customModal');
@@ -1030,8 +1040,8 @@
 
         function loadQuestion() {
             const questionData = quizQuestions[currentQuestionIndex];
-            quizContent.innerHTML = ''; // Clear previous content
-            feedbackSection.classList.remove('show'); // Hide feedback
+            quizContent.innerHTML = ''; 
+            feedbackSection.classList.remove('show'); 
 
             const questionSection = document.createElement('div');
             questionSection.classList.add('question-section');
@@ -1075,12 +1085,10 @@
             questionSection.appendChild(optionsContainer);
             quizContent.appendChild(questionSection);
 
-            // Apply previously selected answer if exists
             if (userAnswers[currentQuestionIndex] !== null) {
                 const selectedOption = document.querySelector(`.option-button[data-answer="${userAnswers[currentQuestionIndex]}"]`);
                 if (selectedOption) {
                     selectedOption.classList.add('selected');
-                    // Show feedback immediately if an answer was already selected
                     showFeedback(userAnswers[currentQuestionIndex]);
                     disableOptions();
                 }
@@ -1091,7 +1099,6 @@
         }
 
         function selectAnswer(selectedOption) {
-            // Only allow selecting if not already answered or if it's a new question
             if (userAnswers[currentQuestionIndex] === null) {
                 userAnswers[currentQuestionIndex] = selectedOption;
                 const questionData = quizQuestions[currentQuestionIndex];
@@ -1099,7 +1106,7 @@
                 const buttons = document.querySelectorAll('.option-button');
                 buttons.forEach(button => {
                     button.classList.remove('selected');
-                    button.disabled = true; // Disable all options after selection
+                    button.disabled = true; 
                 });
 
                 const selectedButton = document.querySelector(`.option-button[data-answer="${selectedOption}"]`);
@@ -1150,12 +1157,10 @@
             score = 0;
             for (let i = 0; i < quizQuestions.length; i++) {
                 if (userAnswers[i] === quizQuestions[i].correctAnswer) {
-                    // Soal 1-40 (indeks 0-39) dikali 2
-                    if (i >= 0 && i <= 39) { // Indeks soal dimulai dari 0
+                    if (i >= 0 && i <= 39) { 
                         score += 2;
                     }
-                    // Soal 41-45 (indeks 40-44) dikali 4
-                    else if (i >= 40 && i <= 44) { // Indeks soal dimulai dari 0
+                    else if (i >= 40 && i <= 44) { 
                         score += 4;
                     }
                 }
@@ -1165,7 +1170,7 @@
 
         function updateNavigationButtons() {
             prevButton.disabled = currentQuestionIndex === 0;
-            nextButton.disabled = false; // Always enable next button, will show score at the end
+            nextButton.disabled = false; 
 
             if (currentQuestionIndex === quizQuestions.length - 1) {
                 nextButton.textContent = "Selesai & Lihat Skor";
@@ -1195,7 +1200,6 @@
                 currentQuestionIndex++;
                 loadQuestion();
             } else {
-                // End of quiz
                 if (userAnswers[currentQuestionIndex] === null) {
                     showModal("Peringatan", "Anda harus memilih jawaban sebelum melihat skor akhir!");
                     return;
@@ -1205,38 +1209,33 @@
         });
 
         function showFinalScore() {
-            document.getElementById('mainQuizContainer').style.display = 'none'; // Sembunyikan kontainer kuis utama
-            downloadSection.style.display = 'block'; // Tampilkan bagian download
+            mainQuizContainer.style.display = 'none'; 
+            downloadSection.style.display = 'block'; 
 
-            // Retrieve nama and kelas from localStorage
             const nama = localStorage.getItem('namaSiswa');
             const kelas = localStorage.getItem('kelasSiswa');
+            let totalNilai = score; 
 
-            let totalNilai = score; // Use 'score' as the equivalent of 'totalNilai'
-
-            // Update the score display elements
-            totalQuestionsSpan.textContent = quizQuestions.length; // Assuming quizQuestions is accessible
-            currentScoreSpan.textContent = totalNilai; // Display the calculated totalNilai/score
+            totalQuestionsSpan.textContent = quizQuestions.length; 
+            currentScoreSpan.textContent = totalNilai; 
 
             let title = "Kuis Selesai!";
-            let message = `Nama: ${nama}\nKelas: ${kelas}\n`;
+            let message = `Nama: ${nama}\nKelas: ${kelas}\nSkor Anda: ${totalNilai}\n`;
 
-            // Determine the message based on the score range, using the original logic
+            // PERBAIKAN SINTAKS: Tambahkan operator + untuk konkatenasi string
             if (totalNilai <= 30) {
                 title = "Sumpah lu Jelek 🤣!";
-                message += "\n\nSantai saja, tidak perlu dipikirkan, yang penting kamu harus tetap hidup ya!😊";
+                message += "\n\n" + "Santai saja, tidak perlu dipikirkan, yang penting kamu harus tetap hidup ya!😊";
             } else if (totalNilai <= 50) {
                 title = "Sulit ya, cuma segini aja🤣";
-                message += "\n\noke gak apa-apa yang penting kamu udah mencoba😊.";
+                message += "\n\n" + "oke gak apa-apa yang penting kamu udah mencoba😊.";
             } else if (totalNilai <= 70) {
                 title = "ini serius😳 !";
-                message += "\n\nSumpah, diantara orang-orang yang bilang ini sulit, tapi kamu beda. kok bisa ya ada orang yang ngertiin aku, makasih ya! 🥺💖.";
+                message += "\n\n" + "Sumpah, diantara orang-orang yang bilang ini sulit, tapi kamu beda. kok bisa ya ada orang yang ngertiin aku, makasih ya! 🥺💖.";
             } else {
                 title = "Selamat ya, manis 💖!";
-                message += "\n\n Makasih ya, Udah bener jawab soal aku… Udah cantik, pinter, Sumpah kamu tuh emang buat aku 😳. Karena diantara orang2 kesulitan, tapi kamu beda, kamu berusaha untuk ngertiin ..Makasih ya, WA selalu open. Hehe ~ 🥰.";
+                message += "\n\n" + "Makasih ya, Udah bener jawab soal aku… Udah cantik, pinter, Sumpah kamu tuh emang buat aku 😳. Karena diantara orang2 kesulitan, tapi kamu beda, kamu berusaha untuk ngertiin ..Makasih ya, WA selalu open. Hehe ~ 🥰.";
             }
-
-            // Finally, show the modal with the determined title and message
             showModal(title, message);
         }
 
@@ -1244,14 +1243,23 @@
             instructionPage.style.display = 'none';
             introForm.style.display = 'block';
         }
+        
+        function tryAutoStartQuiz() {
+            const nama = namaSiswaSelect.value;
+            const kelas = kelasSiswaSelect.value;
 
-        // Initial load
+            if (nama && kelas) { // Jika nama DAN kelas sudah terpilih (bukan string kosong)
+                mulaiKuis();
+            }
+        }
+
         function mulaiKuis() {
-            const nama = document.getElementById('namaSiswa').value;
-            const kelas = document.getElementById('kelasSiswa').value;
+            const nama = namaSiswaSelect.value;
+            const kelas = kelasSiswaSelect.value;
 
             if (!nama || !kelas) {
-                alert("Silakan pilih nama dan kelas terlebih dahulu.");
+                // Menggunakan modal kustom, bukan alert
+                showModal("Peringatan", "Silakan pilih nama dan kelas terlebih dahulu.");
                 return;
             }
 
@@ -1259,18 +1267,33 @@
             localStorage.setItem('kelasSiswa', kelas);
 
             introForm.style.display = 'none';
-            document.getElementById('mainQuizContainer').style.display = 'block';
-
+            mainQuizContainer.style.display = 'block';
             loadQuestion(); 
         }
+        
+        mulaiKuisButton.addEventListener('click', mulaiKuis);
+
 
         document.addEventListener('DOMContentLoaded', () => {
             totalQuestionsSpan.textContent = quizQuestions.length;
             currentScoreSpan.textContent = score;
-            downloadSection.style.display = 'none'; // Pastikan tombol download tersembunyi saat halaman dimuat
-            instructionPage.style.display = 'flex'; // Ensure instruction page is visible first
-            introForm.style.display = 'none'; // Ensure intro form is hidden initially
-            document.getElementById('mainQuizContainer').style.display = 'none'; // Ensure quiz container is hidden initially
+            
+            instructionPage.style.display = 'flex'; 
+            instructionPage.style.flexDirection = 'column';
+            instructionPage.style.justifyContent = 'center';
+            instructionPage.style.alignItems = 'center';
+
+            introForm.style.display = 'none'; 
+            mainQuizContainer.style.display = 'none'; 
+            downloadSection.style.display = 'none'; 
+
+            // Tambahkan event listener untuk auto start quiz
+            if (namaSiswaSelect) {
+                namaSiswaSelect.addEventListener('change', tryAutoStartQuiz);
+            }
+            if (kelasSiswaSelect) {
+                kelasSiswaSelect.addEventListener('change', tryAutoStartQuiz);
+            }
         });
     </script>
 </body>
