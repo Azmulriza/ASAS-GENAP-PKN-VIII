@@ -1132,32 +1132,45 @@
         });
 
         function showFinalScore() {
-            document.getElementById('mainQuizContainer').style.display = 'none'; // Sembunyikan kontainer kuis utama
-            downloadSection.style.display = 'block'; // Tampilkan bagian download
-            
-            // Logika untuk menampilkan skor akhir di modal tetap ada
-            totalQuestionsSpan.textContent = quizQuestions.length;
-            currentScoreSpan.textContent = score;
+    document.getElementById('mainQuizContainer').style.display = 'none'; // Sembunyikan kontainer kuis utama
+    downloadSection.style.display = 'block'; // Tampilkan bagian download
 
-            const nama = localStorage.getItem('namaSiswa');
-            const kelas = localStorage.getItem('kelasSiswa');
+    // Retrieve nama and kelas from localStorage
+    const nama = localStorage.getItem('namaSiswa');
+    const kelas = localStorage.getItem('kelasSiswa');
 
-            let title = "Kuis Selesai!";
-            let message = `Nama: ${nama}\nKelas: ${kelas}\nSkor: ${score} dari ${quizQuestions.length} pertanyaan.`;
+    // Assuming 'score' is already calculated based on correct answers
+    // and corresponds to 'totalNilai' from your first example.
+    // If 'score' is just the count of correct answers, you'll need to
+    // re-calculate 'totalNilai' here based on the scoring logic (2 points for first 40, 4 for 41-45).
+    // For this example, let's assume 'score' *is* the calculated totalNilai.
+    let totalNilai = score; // Use 'score' as the equivalent of 'totalNilai'
 
-            if (score === quizQuestions.length) {
-                title = "Sempurna!";
-                message += "\n\nSelamat, Anda menjawab semua pertanyaan dengan benar!";
-            } else if (score >= quizQuestions.length / 2) {
-                title = "Kerja Bagus!";
-                message += "\n\nAnda memiliki pemahaman yang baik.";
-            } else {
-                title = "Terus Belajar!";
-                message += "\n\nAnda bisa mencoba lagi untuk meningkatkan skor Anda.";
-            }
+    // Update the score display elements
+    totalQuestionsSpan.textContent = quizQuestions.length; // Assuming quizQuestions is accessible
+    currentScoreSpan.textContent = totalNilai; // Display the calculated totalNilai/score
 
-            showModal(title, message);
-        }
+    let title = "Kuis Selesai!";
+    let message = `Nama: ${nama}\nKelas: ${kelas}\n`;
+
+    // Determine the message based on the score range, using the original logic
+    if (totalNilai <= 30) {
+        title = "Sumpah lu Jelek 🤣!";
+        message += "\n\nUdah jelek, Tolol lagi.";
+    } else if (totalNilai <= 50) {
+        title = "Sulit ya, cuma segini aja🤣";
+        message += "\n\napasih, yang bisa kamu banggain? .";
+    } else if (totalNilai <= 70) {
+        title = "ini serius😳 !";
+        message += "\n\nSumpah, diantara orang-orang yang bilang ini sulit, tapi kamu beda. kok bisa ya ada orang yang ngertiin aku, makasih ya! 🥺💖.";
+    } else {
+        title = "Selamat ya, manis 💖!";
+        message += "\n\n Makasih ya, Udah bener jawab soal aku… Udah cantik, pinter, Sumpah kamu tuh emang buat aku 😳. Karena diantara orang2 kesulitan, tapi kamu beda, kamu berusaha untuk ngertiin ..Makasih ya, WA selalu open. Hehe ~ 🥰.";
+    }
+
+    // Finally, show the modal with the determined title and message
+    showModal(title, message);
+}
 
         // Initial load
         function mulaiKuis() {
