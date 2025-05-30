@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Wawasan Nusantara</title>
+    <title>SOAL ASAS PKN VIII GENAP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -11,7 +11,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
             display: flex;
-            flex-direction: column; /* Mengubah ini menjadi kolom agar elemen tertumpuk vertikal */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -25,14 +25,14 @@
             padding: 30px;
             width: 100%;
             max-width: 700px;
-            text-align: center;
+            text-align: center; /* Keep this for centering overall content */
             position: relative;
             overflow: hidden;
-            margin-bottom: 20px; /* Tambahkan margin bawah untuk spasi */
+            margin-bottom: 20px;
         }
         .question-section {
             margin-bottom: 25px;
-            text-align: left;
+            text-align: left; /* Keep this for left alignment of question numbers */
         }
         .question-text {
             font-size: 1.5rem;
@@ -40,6 +40,7 @@
             color: #2c3e50;
             margin-bottom: 20px;
             line-height: 1.4;
+            text-align: justify; /* Add this to justify the question text */
         }
         .options-container {
             display: flex;
@@ -55,7 +56,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: left;
+            text-align: left; /* Keep this for option labels alignment */
             border: 2px solid transparent;
             display: flex;
             align-items: center;
@@ -79,12 +80,12 @@
         }
         .feedback-section {
             margin-top: 25px;
-            text-align: left;
+            text-align: left; /* Keep this for left alignment */
             background-color: #f7fafc;
             border-left: 5px solid #4299e1;
             padding: 15px 20px;
             border-radius: 8px;
-            display: none; /* Hidden by default */
+            display: none;
         }
         .feedback-section.show {
             display: block;
@@ -98,6 +99,7 @@
         .feedback-text {
             font-size: 1rem;
             color: #4a5568;
+            text-align: justify; /* Add this to justify feedback text */
         }
         .navigation-buttons {
             margin-top: 30px;
@@ -154,7 +156,7 @@
         .option-label {
             margin-right: 10px;
             font-weight: bold;
-            min-width: 20px; /* Ensure consistent spacing */
+            min-width: 20px;
             text-align: center;
         }
 
@@ -208,6 +210,8 @@
             font-size: 1.1rem;
             color: #4a5568;
             margin-bottom: 20px;
+            text-align: justify; /* Add this to justify modal message */
+            white-space: pre-wrap; /* This will help with new lines from JS messages */
         }
         .modal-button {
             background-color: #4299e1;
@@ -223,7 +227,7 @@
         .modal-button:hover {
             background-color: #3182ce;
         }
-    
+
         @media (max-width: 480px) {
             .question-text {
                 font-size: 1.1rem;
@@ -249,7 +253,7 @@
 
         /* Gaya baru untuk tombol download */
         #downloadSection {
-            display: none; /* Sembunyikan secara default */
+            display: none;
             margin-top: 20px;
             background-color: #ffffff;
             border-radius: 15px;
@@ -266,7 +270,7 @@
             margin-bottom: 15px;
         }
         #downloadSection button {
-            background-color: #28a745; /* Warna hijau untuk tombol download */
+            background-color: #28a745;
             color: white;
             padding: 12px 25px;
             border-radius: 10px;
@@ -280,10 +284,76 @@
             background-color: #218838;
         }
 
+        /* New style for instruction page */
+        .instruction-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .instruction-container h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+        .instruction-container p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            text-align: justify; /* Add this to justify instruction paragraph text */
+        }
+        .instruction-container ul {
+            list-style-type: disc;
+            padding-left: 25px;
+            margin-bottom: 25px;
+            text-align: left; /* Keep this for left alignment of list items */
+            color: #4a5568;
+        }
+        .instruction-container ul li {
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+            text-align: justify; /* Add this to justify list items */
+        }
+        .instruction-button {
+            background-color: #4299e1;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+        .instruction-button:hover {
+            background-color: #3182ce;
+        }
     </style>
 </head>
 <body>
-	<div id="introForm" class="quiz-container">
+    <div id="instructionPage" class="instruction-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <h2 class="quiz-header">ASAS PKN VIII GENAP</h2>
+        <p>Kuis ini dibuat untuk membantu kamu memahami materi ujian kemarin. Setiap soal dilengkapi penjelasan. Jadi kamu bisa lebih memahami mengapa pilihan jawaban ini adalah yang paling tepat<p>
+        <h3 class="quiz-header" style="font-size: 1.5rem; margin-top: 20px; margin-bottom: 15px;">Petunjuk Pengerjaan:</h3>
+        <ul>
+            <li>Pilihlah salah satu jawaban yang paling tepat untuk setiap pertanyaan.</li>
+            <li>Kamu tidak dapat kembali ke pertanyaan sebelumnya setelah memilih jawaban untuk pertanyaan yang sedang Anda kerjakan.</li>
+            <li>Di akhir kuis, kamu akan tahu seberapa sempurna pemahamanmu dalam memahami materi yang telah dipelajari.</li>
+	    <li>Setelah selesai menjawab semua soal, kamu bisa mendownload file hasil ujian yang kemarin.</li>
+	    </ul>
+        </ul>
+        <button onclick="showIntroForm()" class="instruction-button">Lanjutkan</button>
+    </div>
+
+	<div id="introForm" class="quiz-container" style="display: none;">
         <h2 class="quiz-header">Identitas Peserta</h2>
 
         <label for="namaSiswa" class="block mb-2 text-left">Nama:</label>
@@ -918,6 +988,8 @@
         let score = 0;
         let userAnswers = new Array(quizQuestions.length).fill(null); // To store user's selected answer for each question
 
+        const instructionPage = document.getElementById('instructionPage');
+        const introForm = document.getElementById('introForm');
         const quizContent = document.getElementById('quizContent');
         const feedbackSection = document.getElementById('feedbackSection');
         const feedbackTitle = document.getElementById('feedbackTitle');
@@ -928,7 +1000,7 @@
         const currentScoreSpan = document.getElementById('currentScore');
         const totalQuestionsSpan = document.getElementById('totalQuestions');
         const progressBar = document.getElementById('progressBar');
-        const downloadSection = document.getElementById('downloadSection'); // Deklarasi variabel downloadSection di sini
+        const downloadSection = document.getElementById('downloadSection');
 
         // Modal elements
         const customModal = document.getElementById('customModal');
@@ -1132,45 +1204,45 @@
         });
 
         function showFinalScore() {
-    document.getElementById('mainQuizContainer').style.display = 'none'; // Sembunyikan kontainer kuis utama
-    downloadSection.style.display = 'block'; // Tampilkan bagian download
+            document.getElementById('mainQuizContainer').style.display = 'none'; // Sembunyikan kontainer kuis utama
+            downloadSection.style.display = 'block'; // Tampilkan bagian download
 
-    // Retrieve nama and kelas from localStorage
-    const nama = localStorage.getItem('namaSiswa');
-    const kelas = localStorage.getItem('kelasSiswa');
+            // Retrieve nama and kelas from localStorage
+            const nama = localStorage.getItem('namaSiswa');
+            const kelas = localStorage.getItem('kelasSiswa');
 
-    // Assuming 'score' is already calculated based on correct answers
-    // and corresponds to 'totalNilai' from your first example.
-    // If 'score' is just the count of correct answers, you'll need to
-    // re-calculate 'totalNilai' here based on the scoring logic (2 points for first 40, 4 for 41-45).
-    // For this example, let's assume 'score' *is* the calculated totalNilai.
-    let totalNilai = score; // Use 'score' as the equivalent of 'totalNilai'
+            let totalNilai = score; // Use 'score' as the equivalent of 'totalNilai'
 
-    // Update the score display elements
-    totalQuestionsSpan.textContent = quizQuestions.length; // Assuming quizQuestions is accessible
-    currentScoreSpan.textContent = totalNilai; // Display the calculated totalNilai/score
+            // Update the score display elements
+            totalQuestionsSpan.textContent = quizQuestions.length; // Assuming quizQuestions is accessible
+            currentScoreSpan.textContent = totalNilai; // Display the calculated totalNilai/score
 
-    let title = "Kuis Selesai!";
-    let message = `Nama: ${nama}\nKelas: ${kelas}\n`;
+            let title = "Kuis Selesai!";
+            let message = `Nama: ${nama}\nKelas: ${kelas}\n`;
 
-    // Determine the message based on the score range, using the original logic
-    if (totalNilai <= 30) {
-        title = "Sumpah lu Jelek 🤣!";
-        message += "\n\nUdah jelek, Tolol lagi.";
-    } else if (totalNilai <= 50) {
-        title = "Sulit ya, cuma segini aja🤣";
-        message += "\n\napasih, yang bisa kamu banggain? .";
-    } else if (totalNilai <= 70) {
-        title = "ini serius😳 !";
-        message += "\n\nSumpah, diantara orang-orang yang bilang ini sulit, tapi kamu beda. kok bisa ya ada orang yang ngertiin aku, makasih ya! 🥺💖.";
-    } else {
-        title = "Selamat ya, manis 💖!";
-        message += "\n\n Makasih ya, Udah bener jawab soal aku… Udah cantik, pinter, Sumpah kamu tuh emang buat aku 😳. Karena diantara orang2 kesulitan, tapi kamu beda, kamu berusaha untuk ngertiin ..Makasih ya, WA selalu open. Hehe ~ 🥰.";
-    }
+            // Determine the message based on the score range, using the original logic
+            if (totalNilai <= 30) {
+                title = "Sumpah lu Jelek 🤣!";
+                message += "\n\nUdah jelek, Tolol lagi.";
+            } else if (totalNilai <= 50) {
+                title = "Sulit ya, cuma segini aja🤣";
+                message += "\n\napasih, yang bisa kamu banggain? .";
+            } else if (totalNilai <= 70) {
+                title = "ini serius😳 !";
+                message += "\n\nSumpah, diantara orang-orang yang bilang ini sulit, tapi kamu beda. kok bisa ya ada orang yang ngertiin aku, makasih ya! 🥺💖.";
+            } else {
+                title = "Selamat ya, manis 💖!";
+                message += "\n\n Makasih ya, Udah bener jawab soal aku… Udah cantik, pinter, Sumpah kamu tuh emang buat aku 😳. Karena diantara orang2 kesulitan, tapi kamu beda, kamu berusaha untuk ngertiin ..Makasih ya, WA selalu open. Hehe ~ 🥰.";
+            }
 
-    // Finally, show the modal with the determined title and message
-    showModal(title, message);
-}
+            // Finally, show the modal with the determined title and message
+            showModal(title, message);
+        }
+
+        function showIntroForm() {
+            instructionPage.style.display = 'none';
+            introForm.style.display = 'block';
+        }
 
         // Initial load
         function mulaiKuis() {
@@ -1185,7 +1257,7 @@
             localStorage.setItem('namaSiswa', nama);
             localStorage.setItem('kelasSiswa', kelas);
 
-            document.getElementById('introForm').style.display = 'none';
+            introForm.style.display = 'none';
             document.getElementById('mainQuizContainer').style.display = 'block';
 
             loadQuestion(); 
@@ -1195,6 +1267,9 @@
             totalQuestionsSpan.textContent = quizQuestions.length;
             currentScoreSpan.textContent = score;
             downloadSection.style.display = 'none'; // Pastikan tombol download tersembunyi saat halaman dimuat
+            instructionPage.style.display = 'flex'; // Ensure instruction page is visible first
+            introForm.style.display = 'none'; // Ensure intro form is hidden initially
+            document.getElementById('mainQuizContainer').style.display = 'none'; // Ensure quiz container is hidden initially
         });
     </script>
 </body>
