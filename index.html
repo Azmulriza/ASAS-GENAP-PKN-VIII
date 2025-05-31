@@ -1209,7 +1209,7 @@
             }
         });
 
-        function showFinalScore() {
+function showFinalScore() {
             mainQuizContainer.style.display = 'none'; 
             downloadSection.style.display = 'block'; 
 
@@ -1220,10 +1220,56 @@
             totalQuestionsSpan.textContent = quizQuestions.length; 
             currentScoreSpan.textContent = totalNilai; 
 
+            // ---- MULAI BLOK KODE UNTUK MENGIRIM DATA KE GOOGLE SHEETS ----
+            const timestamp = new Date().toISOString();
+            // Mengubah jawaban null menjadi "Belum Dijawab" dan menggabungkannya
+            const answersString = userAnswers.map(answer => answer === null ? "Belum Dijawab" : answer).join(', '); 
+
+            const dataToSend = {
+                timestamp: timestamp,
+                nama: nama,
+                kelas: kelas,
+                skor: totalNilai,
+                jawaban: answersString
+            };
+
+            // URL Web App Google Apps Script Anda sudah dimasukkan di sini
+            const googleScriptURL = 'https://script.google.com/macros/s/AKfycbyjasS74BO4XQSq10xCulQDOCaWvZaDE83DAuX1J0XwASgYcmdlr9zftXPj27feX5FU/exec'; 
+
+            fetch(googleScriptURL, {
+                method: 'POST',
+                mode: 'cors', // Diperlukan untuk permintaan lintas domain
+                cache: 'no-cache', // Memastikan data terbaru dikirim
+                headers: {
+                    'Content-Type': 'application/json', // Mengirim data dalam format JSON
+                },
+                body: JSON.stringify(dataToSend) // Mengubah objek JavaScript menjadi string JSON
+            })
+            .then(response => response.json()) // Mengharapkan respons dalam format JSON dari Apps Script
+            .then(data => {
+                console.log('Respon dari Google Script:', data); // Untuk debugging di konsol browser
+                if(data.status === "success") {
+                    console.log("Data berhasil disimpan ke Google Sheets.");
+                    // Anda bisa mengaktifkan notifikasi modal ini jika diperlukan:
+                    // showModal("Info", "Hasil kuis Anda telah berhasil disimpan."); 
+                } else {
+                    console.error("Gagal menyimpan data ke Google Sheets:", data.message);
+                    // Anda bisa mengaktifkan notifikasi modal ini jika diperlukan:
+                    // showModal("Error", "Gagal menyimpan hasil kuis. Error: " + data.message); 
+                }
+            })
+            .catch((error) => {
+                console.error('Error mengirim data ke Google Script:', error);
+                // Anda bisa mengaktifkan notifikasi modal ini jika diperlukan:
+                // showModal("Error", "Terjadi kesalahan saat mengirim data. Periksa koneksi internet Anda."); 
+            });
+            // ---- AKHIR BLOK KODE UNTUK GOOGLE SHEETS ----
+
+            // Kode untuk menampilkan modal skor (ini sudah ada di file Anda)
             let title = "Kuis Selesai!";
             let message = `Nama: ${nama}\nKelas: ${kelas}\nSkor Anda: ${totalNilai}\n`;
 
-            // PERBAIKAN SINTAKS: Tambahkan operator + untuk konkatenasi string
+            // Logika untuk pesan berdasarkan skor
             if (totalNilai <= 30) {
                 title = "Sumpah lu Jelek 🤣!";
                 message += "\n\n" + "Santai saja, tidak perlu dipikirkan, yang penting kamu harus tetap hidup ya!😊";
